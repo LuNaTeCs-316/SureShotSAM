@@ -130,8 +130,15 @@ void Team316Robot::TeleopPeriodic()
 	// Shooter
 	//
 	
+	// Camera aiming
+	static bool prevAimingButtonValue = false;
+	bool aimingButtonValue = operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON);
+	if (aimingButtonValue && !prevAimingButtonValue)
+		ProcessCameraImage();
+	prevAimingButtonValue = aimingButtonValue;
+	
 	// Angle Control
-	if (operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON))
+	/*if (operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON))
 	{
 		shooterAngleController->SetSetpoint(1.5);
 		shooterAngleController->Enable();
@@ -141,14 +148,14 @@ void Team316Robot::TeleopPeriodic()
 		// Manual control of the shooter angle
 		
 		shooterAngleController->Disable();
-		
+		*/
 		// Apply deadband to joystick
 		float shooterAngleMotorSpeed = -(operatorJoystick->GetY());
 		if (fabs(shooterAngleMotorSpeed) < 0.2)
 			shooterAngleMotorSpeed = 0;
 		// Manually control the shooter angle motor
 		shooterAngleMotor->Set(shooterAngleMotorSpeed);
-	}
+	//}
 	
 	// Motor Control
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))

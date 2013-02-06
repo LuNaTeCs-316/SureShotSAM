@@ -78,10 +78,13 @@ void Team316Robot::ProcessCameraImage()
 			{
 				// Apply RGB Threshold to mask green
 				BinaryImage* thresholdImage = image->ThresholdHSV(threshold);
+				thresholdImage->Write("thresholdImage.jpg");
 				// Apply convex hull to fill in rectangle
 				BinaryImage* convexHullImage = thresholdImage->ConvexHull(false);
+				convexHullImage->Write("convexHullImage.jpg");
 				// Apply particle filter to remove small blobs
 				BinaryImage* filteredImage = convexHullImage->ParticleFilter(criteria, 1);
+				filteredImage->Write("filteredImage.jpg");
 				// Get particle analysis reports
 				vector<ParticleAnalysisReport>* reports = filteredImage->GetOrderedParticleAnalysisReports();
 				
@@ -165,6 +168,16 @@ double ScoreAspectRatio(BinaryImage* image, ParticleAnalysisReport* report, bool
 	return (max(0, min(aspectRatio, 100)));
 }
 
+/**
+ * Computes a score based on the match between a template profile and the particle profile in the X direction. This method uses the
+ * the column averages and the profile defined at the top of the sample to look for the solid vertical edges with
+ * a hollow center.
+ * 
+ * @param image The image to use, should be the image before the convex hull is performed
+ * @param report The Particle Analysis Report for the particle
+ * 
+ * @return The X Edge Score (0-100)
+ */
 double ScoreXEdge(BinaryImage* image, ParticleAnalysisReport* report)
 {
 	double total = 0;
@@ -180,6 +193,16 @@ double ScoreXEdge(BinaryImage* image, ParticleAnalysisReport* report)
 	return total;
 }
 
+/**
+ * Computes a score based on the match between a template profile and the particle profile in the Y direction. This method uses the
+ * the column averages and the profile defined at the top of the sample to look for the solid vertical edges with
+ * a hollow center.
+ * 
+ * @param image The image to use, should be the image before the convex hull is performed
+ * @param report The Particle Analysis Report for the particle
+ * 
+ * @return The Y Edge Score (0-100)
+ */
 double ScoreYEdge(BinaryImage* image, ParticleAnalysisReport* report)
 {
 	double total = 0;
@@ -195,6 +218,14 @@ double ScoreYEdge(BinaryImage* image, ParticleAnalysisReport* report)
 	return total;
 }
 
+/**
+ * Compares scores to defined limits and returns true if the particle appears to be a target
+ * 
+ * @param scores The structure containing the scores to compare
+ * @param outer True if the particle should be treated as an outer target, false to treat it as a center target
+ * 
+ * @return True if the particle meets all limits, false otherwise
+ */
 bool ScoreCompare(Scores scores, bool outer)
 {
 	bool isTarget = true;
@@ -211,7 +242,17 @@ bool ScoreCompare(Scores scores, bool outer)
 	return isTarget;
 }
 
-double ComputeDistance (BinaryImage *image, ParticleAnalysisReport *report, bool outer) {
+/**
+ * Computes the estimated distance to a target using the height of the particle in the image. For more information and graphics
+ * showing the math behind this approach see the Vision Processing section of the ScreenStepsLive documentation.
+ * 
+ * @param image The image to use for measuring the particle estimated rectangle
+ * @param report The Particle Analysis Report for the particle
+ * @param outer True if the particle should be treated as an outer target, false to treat it as a center target
+ * @return The estimated distance to the target in Inches.
+ */
+double ComputeDistance (BinaryImage *image, ParticleAnalysisReport *report, bool outer)
+{
 	double rectShort, height;
 	int targetHeight;
 	
