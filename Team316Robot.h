@@ -69,7 +69,7 @@ private:
 	//
 	// Declare NetworkTable for Camera data
 	//
-	//NetworkTable* table;
+	NetworkTable* table;
 	
 	//
 	// Robot Preferences

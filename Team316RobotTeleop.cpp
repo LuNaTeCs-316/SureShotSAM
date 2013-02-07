@@ -24,9 +24,9 @@ double skimGain = 0.5;
 double skim(double v, double gain)
 {
 	if (v > 1.0)
-		return -((v - 1.0) * gain);
+		return ((v - 1.0) * gain);
 	else if (v < -1.0)
-		return -((v + 1.0) * gain);
+		return ((v + 1.0) * gain);
 	return 0;
 }
 
@@ -98,6 +98,11 @@ void Team316Robot::TeleopPeriodic()
 	double left = t_left + skim(t_right, skimGain);
 	double right = t_right + skim(t_left, skimGain);
 	
+	SmartDashboard::PutNumber("t_left", t_left);
+	SmartDashboard::PutNumber("t_right", t_right);
+	SmartDashboard::PutNumber("LeftMotor", left);
+	SmartDashboard::PutNumber("RightMotor", right);
+	
 	leftDriveMotor->Set(left);
 	rightDriveMotor->Set(right);
 	
@@ -131,12 +136,15 @@ void Team316Robot::TeleopPeriodic()
 	//
 	
 	// Camera aiming
+	if (operatorJoystick->GetRawButton(3))
+		std::cout << "Distance: " << table->GetNumber("Distance", 0.0) << std::endl;
+	/*
 	static bool prevAimingButtonValue = false;
 	bool aimingButtonValue = operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON);
 	if (aimingButtonValue && !prevAimingButtonValue)
 		ProcessCameraImage();
 	prevAimingButtonValue = aimingButtonValue;
-	
+	*/
 	// Angle Control
 	/*if (operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON))
 	{

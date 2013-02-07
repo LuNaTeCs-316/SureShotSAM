@@ -48,7 +48,7 @@ Team316Robot::Team316Robot()
 	// Robot Preferences
 	prefs = Preferences::GetInstance();
 	
-
+	table = NetworkTable::GetTable("SmartDashboard");
 }
 
 //

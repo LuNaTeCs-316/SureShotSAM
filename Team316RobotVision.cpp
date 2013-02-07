@@ -50,7 +50,7 @@ void Team316Robot::ProcessCameraImage()
 {
 	// Get the camera object
 	AxisCamera& camera = AxisCamera::GetInstance();
-	Threshold threshold(60, 100, 90, 255, 20, 255);
+	Threshold threshold(0, 100, 60, 255, 0, 170);
 	ParticleFilterCriteria2 criteria[] = {
 			{IMAQ_MT_AREA, 500, 65535, false, false}
 	};
@@ -77,7 +77,7 @@ void Team316Robot::ProcessCameraImage()
 			if (image)
 			{
 				// Apply RGB Threshold to mask green
-				BinaryImage* thresholdImage = image->ThresholdHSV(threshold);
+				BinaryImage* thresholdImage = image->ThresholdRGB(threshold);
 				thresholdImage->Write("thresholdImage.jpg");
 				// Apply convex hull to fill in rectangle
 				BinaryImage* convexHullImage = thresholdImage->ConvexHull(false);
