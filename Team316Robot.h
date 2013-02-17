@@ -36,8 +36,10 @@ private:
 	//
 	
 	// Drivetrain
-	SpeedController* 	leftDriveMotor;
-	SpeedController* 	rightDriveMotor;
+	SpeedController* 	frontLeftDriveMotor;
+	SpeedController* 	frontRightDriveMotor;
+	SpeedController*	rearLeftDriveMotor;
+	SpeedController*	rearRightDriveMotor;
 	RobotDrive* 		driveMotors;
 	Encoder* 			leftDriveEncoder;
 	Encoder* 			rightDriveEncoder;
@@ -47,6 +49,7 @@ private:
 	SpeedController* 	pickupAngleMotor;
 	Potentiometer* 		pickupAnglePot;
 	PIDController*		pickupAngleController;
+	Victor*				pickupMotor;
 	
 	// Shooter
 	SpeedController* 	shooterMotor;
@@ -57,6 +60,9 @@ private:
 	PIDController* 		shooterAngleController;
 	Solenoid*			shooterPistonSolenoid;
 
+	// Climbing
+	Solenoid* climbingSolenoid;
+	
 	// Compressor
 	DigitalInput* pressureSwitch;
 	Compressor* compressor;
@@ -76,6 +82,13 @@ private:
 	//
 	Preferences* prefs;
 	
+	//
+	// Autonomous Data
+	//
+	SendableChooser* autoModeChooser;
+	int autoMode;
+	void AutonomousMode1();
+	void AutonomousMode2();
 
 	//
 	// Private member functions

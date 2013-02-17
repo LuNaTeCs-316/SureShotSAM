@@ -18,9 +18,12 @@ Team316Robot::Team316Robot()
 	operatorJoystick = new Joystick(2);
 	
 	// Drivetrain
-	leftDriveMotor = new Jaguar(LEFT_DRIVE_MOTOR);
-	rightDriveMotor = new Jaguar(RIGHT_DRIVE_MOTOR);
-	driveMotors = new RobotDrive(leftDriveMotor, rightDriveMotor);
+	frontLeftDriveMotor = new Victor(FRONT_LEFT_DRIVE_MOTOR);
+	frontRightDriveMotor = new Victor(FRONT_RIGHT_DRIVE_MOTOR);
+	rearLeftDriveMotor = new Victor(REAR_LEFT_DRIVE_MOTOR);
+	rearRightDriveMotor = new Victor(REAR_RIGHT_DRIVE_MOTOR);
+	
+	driveMotors = new RobotDrive(frontLeftDriveMotor, frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
 	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k4X);
 	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k4X);
 	
@@ -28,16 +31,20 @@ Team316Robot::Team316Robot()
 	pickupBeltRelay = new Relay(PICKUP_BELT_RELAY);
 	pickupAngleMotor = new Jaguar(PICKUP_ANGLE_MOTOR);
 	pickupAnglePot = new Potentiometer(PICKUP_ANGLE_POT);
-	pickupAngleController = new PIDController(1.0, 0.0, 0.0, pickupAnglePot, pickupAngleMotor);
+	pickupAngleController = new PIDController(-5.0, -0.1, 0.0, pickupAnglePot, pickupAngleMotor);
+	pickupMotor = new Victor(8);
 	
 	// Shooter
 	shooterMotor = new Victor(SHOOTER_MOTOR);
 	shooterSpeedCounter = new SpeedCounter(SHOOTER_SPEED_COUNTER);
-	shooterSpeedController = new PIDController(0.004, 0.000, 0.0, shooterSpeedCounter, shooterMotor);
-	shooterAngleMotor = new Victor(SHOOTER_ANGLE_MOTOR);
+	shooterSpeedController = new PIDController(-0.005, 0.000, 0.0, shooterSpeedCounter, shooterMotor);
+	shooterAngleMotor = new Jaguar(SHOOTER_ANGLE_MOTOR);
 	shooterAnglePot = new Potentiometer(SHOOTER_ANGLE_POT);
-	shooterAngleController = new PIDController(20.0, 0.0, 0.0, shooterAnglePot, shooterAngleMotor);
+	shooterAngleController = new PIDController(22.5, 0.0, 0.0, shooterAnglePot, shooterAngleMotor);
 	shooterPistonSolenoid = new Solenoid(SHOOTER_PISTON_SOLENOID);
+	
+	// Climbing
+	climbingSolenoid = new Solenoid(CLIMBING_SOLENOID);
 	
 	// Compressor
 	compressor = new Compressor(COMPRESSOR_PRESSURE_SWITCH, COMPRESSOR_RELAY);
@@ -48,7 +55,12 @@ Team316Robot::Team316Robot()
 	// Robot Preferences
 	prefs = Preferences::GetInstance();
 	
+	// Network Tables
 	table = NetworkTable::GetTable("SmartDashboard");
+	
+	// Autonomous mode
+	autoModeChooser = new SendableChooser();
+	
 }
 
 //
@@ -69,19 +81,26 @@ void Team316Robot::RobotInit()
 	driveMotors->SetExpiration(0.1);
 	driveMotors->SetMaxOutput(1.0);
 	driveMotors->SetSensitivity(0.5);
-	driveMotors->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
-	driveMotors->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
 	
+	//driveMotors->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
+	//driveMotors->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
+	//driveMotors->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
+	//driveMotors->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	shooterSpeedCounter->Start();
 	
 	compressor->Start();
 	
+	autoModeChooser->AddDefault("Mode 1", (char*) "Mode 1");
+	autoModeChooser->AddObject("Mode 2", (char*) "Mode 2");
+	SmartDashboard::PutData("Autonomous Mode Chooser", autoModeChooser);
 	
 	//
 	// Configure LiveWindow
 	//
-	liveWindow->AddActuator("Drivetrain", "LeftMotor", (Jaguar*) leftDriveMotor);
-	liveWindow->AddActuator("Drivetrain", "RightMotor", (Jaguar*) rightDriveMotor);
+	liveWindow->AddActuator("Drivetrain", "FrontLeftMotor", (Victor*) frontLeftDriveMotor);
+	liveWindow->AddActuator("Drivetrain", "FrontRightMotor", (Victor*) frontRightDriveMotor);
+	liveWindow->AddActuator("Drivetrain", "RearLeftMotor", (Victor*) rearLeftDriveMotor);
+	liveWindow->AddActuator("Drivetrain", "RearRightMotor", (Victor*) rearRightDriveMotor);
 	liveWindow->AddSensor("Drivetrain", "LeftEncoder", leftDriveEncoder);
 	liveWindow->AddSensor("Drivetrain", "RightEncoder", rightDriveEncoder);
 	
@@ -89,13 +108,16 @@ void Team316Robot::RobotInit()
 	liveWindow->AddActuator("Pickup", "AngleMotor", (Jaguar*) pickupAngleMotor);
 	liveWindow->AddSensor("Pickup", "AnglePot", pickupAnglePot);
 	liveWindow->AddActuator("Pickup", "AnglePIDController", pickupAngleController);
+	liveWindow->AddActuator("Pickup", "Motor", pickupMotor);
 
 	liveWindow->AddActuator("Shooter", "Motor", (Victor*) shooterMotor);
 	liveWindow->AddSensor("Shooter", "SpeedCounter", shooterSpeedCounter);
 	liveWindow->AddActuator("Shooter", "SpeedPIDController", shooterSpeedController);
-	liveWindow->AddActuator("Shooter", "AngleMotor", (Victor*) shooterAngleMotor);
+	liveWindow->AddActuator("Shooter", "AngleMotor", (Jaguar*) shooterAngleMotor);
 	liveWindow->AddSensor("Shooter", "AnglePot", shooterAnglePot);
 	liveWindow->AddActuator("Shooter", "AnglePIDController", shooterAngleController);
+	
+	liveWindow->AddActuator("Climbing", "Solenoid", climbingSolenoid);
 	
 	std::cout << "RobotInit Done" << std::endl;
 }
@@ -109,8 +131,8 @@ void Team316Robot::RobotInit()
 void Team316Robot::UpdateSmartDashboard()
 {
 	/*
-	SmartDashboard::PutNumber("LeftDriveMotorSpeed", leftDriveMotor->Get());
-	SmartDashboard::PutNumber("RightDriveMotorSpeed", rightDriveMotor->Get());
+	SmartDashboard::PutNumber("LeftDriveMotorSpeed", frontLeftDriveMotor->Get());
+	SmartDashboard::PutNumber("RightDriveMotorSpeed", frontRightDriveMotor->Get());
 	SmartDashboard::PutNumber("LeftEncoderRate", leftDriveEncoder->GetRate());
 	SmartDashboard::PutNumber("RightEncoderRate", rightDriveEncoder->GetRate());
 	SmartDashboard::PutNumber("LeftEncoderDistance", leftDriveEncoder->GetDistance());
@@ -127,6 +149,7 @@ void Team316Robot::UpdateSmartDashboard()
 	*/
 	SmartDashboard::PutNumber("ShooterAngle", shooterAnglePot->PIDGet());
 	SmartDashboard::PutNumber("ShooterSpeed", shooterSpeedCounter->PIDGet());
+	SmartDashboard::PutNumber("ShooterOutput", shooterMotor->Get());
 }
 
 //

@@ -6,7 +6,7 @@
 
 #include "Team316Robot.h"
 #include "Vision/RGBImage.h"
-#include <cmath>
+#include <math.h>
 
 // Custom arcade drive parameters
 double throttleGain = 1.0;
@@ -71,9 +71,8 @@ void Team316Robot::TeleopPeriodic()
 	// Advanced Arcade Drive w/ Filtering
 	
 	// Joystick filtering
-	
 	// Apply cubic function and deadband to joystick inputs
-	double throttle = driverController->GetY();
+	double throttle = -(driverController->GetY());
 	if (fabs(throttle) < deadband) {
 		throttle = 0;
 	} else {
@@ -98,37 +97,57 @@ void Team316Robot::TeleopPeriodic()
 	double left = t_left + skim(t_right, skimGain);
 	double right = t_right + skim(t_left, skimGain);
 	
-	SmartDashboard::PutNumber("t_left", t_left);
-	SmartDashboard::PutNumber("t_right", t_right);
+	//SmartDashboard::PutNumber("t_left", t_left);
+	//SmartDashboard::PutNumber("t_right", t_right);
 	SmartDashboard::PutNumber("LeftMotor", left);
 	SmartDashboard::PutNumber("RightMotor", right);
 	
-	leftDriveMotor->Set(left);
-	rightDriveMotor->Set(right);
+	frontLeftDriveMotor->Set(left);
+	rearLeftDriveMotor->Set(left);
+	frontRightDriveMotor->Set(-right);
+	rearRightDriveMotor->Set(-right);
 	
 	//
 	// Pickup
 	//
 	
 	if (operatorJoystick->GetRawButton(8)) {
-		pickupAngleController->SetSetpoint(0.0);
+		pickupAngleController->SetSetpoint(2.486);
 		pickupAngleController->Enable();
 	} else if (operatorJoystick->GetRawButton(9)) {
-		pickupAngleController->SetSetpoint(2.5);
+		pickupAngleController->SetSetpoint(2.332);
 		pickupAngleController->Enable();
 	} else if (operatorJoystick->GetRawButton(10)) {
-		pickupAngleController->SetSetpoint(5.0);
+		pickupAngleController->SetSetpoint(2.075);
 		pickupAngleController->Enable();
 	} else {
 		pickupAngleController->Disable();
+		pickupAngleMotor->Set(operatorJoystick->GetX());
 	}
 	
+	
+	SmartDashboard::PutNumber("PickupAngle", pickupAnglePot->GetAverageVoltage());
+	
+	/*
 	if (operatorJoystick->GetRawButton(6)) {
 		pickupBeltRelay->Set(Relay::kForward);
 	} else if (operatorJoystick->GetRawButton(7)) {
 		pickupBeltRelay->Set(Relay::kReverse);
 	} else {
 		pickupBeltRelay->Set(Relay::kOff);
+	}
+	*/
+	
+	if (operatorJoystick->GetRawButton(6)) {
+		pickupBeltRelay->Set(Relay::kForward);
+		pickupMotor->Set(1.0);
+	} 
+	else if (operatorJoystick->GetRawButton(7)) {
+		pickupMotor->Set(-1.0);
+	}
+	else {
+		pickupBeltRelay->Set(Relay::kOff);
+		pickupMotor->Set(0.0);
 	}
 	
 	//
@@ -146,34 +165,36 @@ void Team316Robot::TeleopPeriodic()
 	prevAimingButtonValue = aimingButtonValue;
 	*/
 	// Angle Control
-	/*if (operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON))
+	if (operatorJoystick->GetRawButton(8))
 	{
-		shooterAngleController->SetSetpoint(1.5);
+		shooterAngleController->SetSetpoint(1.942);
 		shooterAngleController->Enable();
 	}
 	else
 	{
-		// Manual control of the shooter angle
-		
+		// Manual control of the shooter angle	
 		shooterAngleController->Disable();
-		*/
+
 		// Apply deadband to joystick
 		float shooterAngleMotorSpeed = -(operatorJoystick->GetY());
 		if (fabs(shooterAngleMotorSpeed) < 0.2)
 			shooterAngleMotorSpeed = 0;
+		
 		// Manually control the shooter angle motor
 		shooterAngleMotor->Set(shooterAngleMotorSpeed);
-	//}
+	}
 	
 	// Motor Control
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))
 	{
-		shooterSpeedController->SetSetpoint(4000.0);
+		shooterSpeedController->SetSetpoint(5000.0);
 		shooterSpeedController->Enable();
+		//shooterMotor->Set(-1);
 	}
 	else
 	{
 		shooterSpeedController->Disable();
+		//shooterMotor->Set(0.0);
 	}
 	
 	// Piston Control
@@ -184,6 +205,16 @@ void Team316Robot::TeleopPeriodic()
 	else
 	{
 		shooterPistonSolenoid->Set(false);
+	}
+	
+	// Climbing
+	if (operatorJoystick->GetRawButton(4))
+	{
+		climbingSolenoid->Set(true);
+	}
+	else
+	{
+		climbingSolenoid->Set(false);
 	}
 	
 	// Camera snapshot
