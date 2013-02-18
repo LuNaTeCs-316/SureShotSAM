@@ -64,21 +64,21 @@ void Team316Robot::AutonomousMode1()
 		case 1:
 			// Turn the motor on and wait till we're up to speed
 			cout << "Step1" << endl;
-			shooterSpeedController->SetSetpoint(5000);
+			shooterSpeedController->SetSetpoint(4200);
 			shooterSpeedController->Enable();
 			
 			// Terminating condition check
-			if (shooterSpeedController->GetError() < 1000) {
+			if (shooterSpeedCounter->PIDGet() > 4000) {
 				step++;
 				startTime = GetClock();
 			}
 			break;
 		case 2:
 			// Fire the first shot
-			cout << "Step2" << endl;
+			cout << "Step2, StartTime: " << startTime << ", Clock: " << GetClock() << endl;
 			shooterPistonSolenoid->Set(true);
 			
-			if (GetClock() - startTime >= 150) {
+			if (GetClock() - startTime >= 0.15) {
 				step++;
 				startTime = GetClock();
 			}
@@ -88,7 +88,7 @@ void Team316Robot::AutonomousMode1()
 			cout << "Step3" << endl;
 			shooterPistonSolenoid->Set(false);
 			
-			if (shooterSpeedController->GetError() < 1000) {
+			if (shooterSpeedCounter->PIDGet() > 4000) {
 				step++;
 				startTime = GetClock();
 			}
@@ -98,7 +98,7 @@ void Team316Robot::AutonomousMode1()
 			cout << "Step4" << endl;
 			shooterPistonSolenoid->Set(true);			
 			
-			if (GetClock() - startTime >= 150) {
+			if (GetClock() - startTime >= 0.15) {
 				step++;
 				startTime = GetClock();
 			}
@@ -108,7 +108,7 @@ void Team316Robot::AutonomousMode1()
 			cout << "Step5" << endl;
 			shooterPistonSolenoid->Set(false);
 			
-			if (shooterSpeedController->GetError() < 500) {
+			if (shooterSpeedCounter->PIDGet() > 4000) {
 				step++;
 				startTime = GetClock();
 			}
@@ -118,7 +118,7 @@ void Team316Robot::AutonomousMode1()
 			cout << "Step6" << endl;
 			shooterPistonSolenoid->Set(true);
 			
-			if (GetClock() - startTime >= 150) {
+			if (GetClock() - startTime >= 0.15) {
 				step++;
 				startTime = GetClock();
 			}

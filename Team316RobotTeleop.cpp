@@ -43,8 +43,8 @@ void Team316Robot::TeleopInit()
 	throttleGain = prefs->GetDouble("throttleGain", 1.0);
 	turnGain = prefs->GetDouble("turnGain", 1.0);
 	deadband = prefs->GetDouble("deadband", 0.2);
-	turnBoostGain = prefs->GetDouble("turnBoostGain", 0.5);
-	skimGain = prefs->GetDouble("skimGain", 0.5);
+	turnBoostGain = prefs->GetDouble("turnBoostGain", 0.6);
+	skimGain = prefs->GetDouble("skimGain", 0.6);
 	
 	// Check parameter values
 	std::cout << "throttleGain: " << throttleGain << ", turnGain: " << turnGain
@@ -79,7 +79,9 @@ void Team316Robot::TeleopPeriodic()
 		throttle = (throttleGain * (throttle * throttle * throttle)) +
 			((1 - throttleGain) * throttle);
 	}
+	
 	double turn = driverController->GetRawAxis(4);
+	
 	if (fabs(turn) < deadband) {
 		turn = 0;
 	} else {
@@ -111,6 +113,7 @@ void Team316Robot::TeleopPeriodic()
 	// Pickup
 	//
 	
+	/*
 	if (operatorJoystick->GetRawButton(8)) {
 		pickupAngleController->SetSetpoint(2.486);
 		pickupAngleController->Enable();
@@ -124,7 +127,14 @@ void Team316Robot::TeleopPeriodic()
 		pickupAngleController->Disable();
 		pickupAngleMotor->Set(operatorJoystick->GetX());
 	}
-	
+	*/
+	if (driverController->GetRawButton(5)) {
+		pickupAngleMotor->Set(1.0);
+	} else if (driverController->GetRawButton(6)) {
+		pickupAngleMotor->Set(-0.5);
+	} else {
+		pickupAngleMotor->Set(0.0);
+	}
 	
 	SmartDashboard::PutNumber("PickupAngle", pickupAnglePot->GetAverageVoltage());
 	
@@ -140,10 +150,10 @@ void Team316Robot::TeleopPeriodic()
 	
 	if (operatorJoystick->GetRawButton(6)) {
 		pickupBeltRelay->Set(Relay::kForward);
-		pickupMotor->Set(1.0);
+		pickupMotor->Set(-operatorJoystick->GetZ());
 	} 
 	else if (operatorJoystick->GetRawButton(7)) {
-		pickupMotor->Set(-1.0);
+		pickupMotor->Set(operatorJoystick->GetZ());
 	}
 	else {
 		pickupBeltRelay->Set(Relay::kOff);
@@ -155,19 +165,21 @@ void Team316Robot::TeleopPeriodic()
 	//
 	
 	// Camera aiming
+	/*
 	if (operatorJoystick->GetRawButton(3))
 		std::cout << "Distance: " << table->GetNumber("Distance", 0.0) << std::endl;
-	/*
+	*/
+	
 	static bool prevAimingButtonValue = false;
 	bool aimingButtonValue = operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON);
 	if (aimingButtonValue && !prevAimingButtonValue)
 		ProcessCameraImage();
 	prevAimingButtonValue = aimingButtonValue;
-	*/
+	
 	// Angle Control
 	if (operatorJoystick->GetRawButton(8))
 	{
-		shooterAngleController->SetSetpoint(1.942);
+		shooterAngleController->SetSetpoint(2.923);
 		shooterAngleController->Enable();
 	}
 	else
@@ -176,7 +188,7 @@ void Team316Robot::TeleopPeriodic()
 		shooterAngleController->Disable();
 
 		// Apply deadband to joystick
-		float shooterAngleMotorSpeed = -(operatorJoystick->GetY());
+		float shooterAngleMotorSpeed = operatorJoystick->GetY();
 		if (fabs(shooterAngleMotorSpeed) < 0.2)
 			shooterAngleMotorSpeed = 0;
 		
@@ -187,9 +199,11 @@ void Team316Robot::TeleopPeriodic()
 	// Motor Control
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))
 	{
-		shooterSpeedController->SetSetpoint(5000.0);
+		/*
+		shooterSpeedController->SetSetpoint(4200.0);
 		shooterSpeedController->Enable();
-		//shooterMotor->Set(-1);
+		*/
+		shooterMotor->Set(-1);
 	}
 	else
 	{
