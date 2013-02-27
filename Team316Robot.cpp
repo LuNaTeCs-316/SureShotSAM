@@ -14,6 +14,7 @@
 Team316Robot::Team316Robot()
 {
 	// OI
+	ds = DriverStation::GetInstance();
 	driverController = new Joystick(1);
 	operatorJoystick = new Joystick(2);
 	
@@ -56,7 +57,7 @@ Team316Robot::Team316Robot()
 	prefs = Preferences::GetInstance();
 	
 	// Network Tables
-	table = NetworkTable::GetTable("SmartDashboard");
+	//table = NetworkTable::GetTable("SmartDashboard");
 	
 	// Autonomous mode
 	autoModeChooser = new SendableChooser();

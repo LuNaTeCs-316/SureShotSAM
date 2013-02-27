@@ -131,7 +131,7 @@ void Team316Robot::TeleopPeriodic()
 	if (driverController->GetRawButton(5)) {
 		pickupAngleMotor->Set(1.0);
 	} else if (driverController->GetRawButton(6)) {
-		pickupAngleMotor->Set(-0.5);
+		pickupAngleMotor->Set(-1.0);
 	} else {
 		pickupAngleMotor->Set(0.0);
 	}
@@ -166,20 +166,22 @@ void Team316Robot::TeleopPeriodic()
 	
 	// Camera aiming
 	/*
-	if (operatorJoystick->GetRawButton(3))
-		std::cout << "Distance: " << table->GetNumber("Distance", 0.0) << std::endl;
-	*/
-	
 	static bool prevAimingButtonValue = false;
 	bool aimingButtonValue = operatorJoystick->GetRawButton(SHOOTER_AIMING_BUTTON);
 	if (aimingButtonValue && !prevAimingButtonValue)
 		ProcessCameraImage();
 	prevAimingButtonValue = aimingButtonValue;
+	*/
 	
 	// Angle Control
-	if (operatorJoystick->GetRawButton(8))
+	if (operatorJoystick->GetRawButton(11)) //3 point target
 	{
-		shooterAngleController->SetSetpoint(2.923);
+		shooterAngleController->SetSetpoint(4.2);
+		shooterAngleController->Enable();
+	}
+	else if (operatorJoystick->GetRawButton(10)) //2 point target
+	{
+		shooterAngleController->SetSetpoint(4.1);
 		shooterAngleController->Enable();
 	}
 	else
@@ -199,11 +201,13 @@ void Team316Robot::TeleopPeriodic()
 	// Motor Control
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))
 	{
-		/*
-		shooterSpeedController->SetSetpoint(4200.0);
+		shooterSpeedController->SetSetpoint(3750.0);
 		shooterSpeedController->Enable();
-		*/
-		shooterMotor->Set(-1);
+		//shooterMotor->Set(-1);
+	}
+	else if (operatorJoystick->GetRawButton(5))
+	{
+		shooterMotor->Set(.5);
 	}
 	else
 	{

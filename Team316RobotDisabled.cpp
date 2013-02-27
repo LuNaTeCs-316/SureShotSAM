@@ -24,5 +24,6 @@ void Team316Robot::DisabledInit()
 void Team316Robot::DisabledPeriodic()
 {
 	// Send data to the dashboard
+	driveMotors->ArcadeDrive(0.0, 0.0);
 	UpdateSmartDashboard();
 }

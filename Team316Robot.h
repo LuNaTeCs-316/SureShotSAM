@@ -28,8 +28,9 @@ private:
 	//
 	// Declare member variables for the operator interface
 	//
-	Joystick* driverController;
-	Joystick* operatorJoystick;
+	DriverStation* 	ds;
+	Joystick* 		driverController;
+	Joystick* 		operatorJoystick;
 	
 	//
 	// Declare member variables for the robot components
@@ -75,7 +76,7 @@ private:
 	//
 	// Declare NetworkTable for Camera data
 	//
-	NetworkTable* table;
+	//NetworkTable* table;
 	
 	//
 	// Robot Preferences
@@ -87,6 +88,7 @@ private:
 	//
 	SendableChooser* autoModeChooser;
 	int autoMode;
+	int step;
 	void AutonomousMode1();
 	void AutonomousMode2();
 
