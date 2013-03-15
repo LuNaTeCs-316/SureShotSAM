@@ -176,12 +176,17 @@ void Team316Robot::TeleopPeriodic()
 	// Angle Control
 	if (operatorJoystick->GetRawButton(11)) //3 point target
 	{
-		shooterAngleController->SetSetpoint(4.2);
+		shooterAngleController->SetSetpoint(3.65);
 		shooterAngleController->Enable();
 	}
 	else if (operatorJoystick->GetRawButton(10)) //2 point target
 	{
-		shooterAngleController->SetSetpoint(4.1);
+		shooterAngleController->SetSetpoint(3.55);
+		shooterAngleController->Enable();
+	}
+	else if(operatorJoystick->GetRawButton(6))
+	{
+		shooterAngleController->SetSetpoint(2.5);
 		shooterAngleController->Enable();
 	}
 	else
