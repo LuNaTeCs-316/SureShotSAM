@@ -57,12 +57,6 @@ void Team316Robot::AutonomousPeriodic()
 		case 3:
 			AutonomousMode3();
 			break;
-		case 4:
-			AutonomousMode4();
-			break;
-		case 5:
-			AutonomousMode5();
-			break;
 		default:
 			// Do nothing
 			break;
@@ -238,6 +232,8 @@ void Team316Robot::AutonomousMode2()
 			cout << "Step7" << endl;
 			shooterPistonSolenoid->Set(false);
 			shooterSpeedController->Disable();
+			shooterAngleController->SetSetpoint(2.25);
+			shooterAngleController->Enable();
 			step++;
 			break;
 		case 8:
@@ -245,9 +241,9 @@ void Team316Robot::AutonomousMode2()
 			cout << "Step8" << endl;
 			
 			pickupAngleMotor->Set(-1);
-			pickupMotor->Set(0.9);
+			pickupMotor->Set(-0.9);
 			
-			if ((GetClock() - startTime) > 2.0) {
+			if ((GetClock() - startTime) > 2.5) {
 				step++;
 				startTime = GetClock();
 			}
@@ -255,8 +251,6 @@ void Team316Robot::AutonomousMode2()
 		case 9:
 			// Drive backwards to pickup the frisbees
 			cout << "Step9" << endl;
-			
-			pickupAngleMotor->Set(0.0);
 			
 			frontLeftDriveMotor->Set(-0.5);
 			rearLeftDriveMotor->Set(-0.5);
@@ -270,6 +264,8 @@ void Team316Robot::AutonomousMode2()
 			break;
 		case 10:
 			// Stop the drive motors and wait
+			
+			pickupAngleMotor->Set(0);
 			
 			frontLeftDriveMotor->Set(0.0);
 			rearLeftDriveMotor->Set(0.0);
@@ -368,6 +364,7 @@ void Team316Robot::AutonomousMode2()
 
 void Team316Robot::AutonomousMode3()
 {
+	static double startTime = GetClock();
 	switch (step)
 	{
 		case 1:
@@ -580,25 +577,6 @@ void Team316Robot::AutonomousMode3()
 				startTime = GetClock();
 			}
 			break;
-		case 16:
-			// Wait for the motor to get back up to speed
-			shooterPistonSolenoid->Set(false);
-			
-			if (shooterSpeedCounter->PIDGet() > 3900) {
-				step++;
-				startTime = GetClock();
-			}
-			break;
-		case 17:
-			// Fire the second shot
-			shooterPistonSolenoid->Set(true);
-			
-			if (GetClock() - startTime > 0.1);
-			{
-				step++;
-				startTime = GetClock();
-			}
-			break;
 		case 18:
 			// Wait for the motor to get back up to speed
 			shooterPistonSolenoid->Set(false);
@@ -619,6 +597,25 @@ void Team316Robot::AutonomousMode3()
 			}
 			break;
 		case 20:
+			// Wait for the motor to get back up to speed
+			shooterPistonSolenoid->Set(false);
+			
+			if (shooterSpeedCounter->PIDGet() > 3900) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+		case 21:
+			// Fire the second shot
+			shooterPistonSolenoid->Set(true);
+			
+			if (GetClock() - startTime > 0.1);
+			{
+				step++;
+				startTime = GetClock();
+			}
+			break;
+		case 22:
 			// Cleanup
 			cout << "Step16" << endl;
 			shooterAngleController->SetSetpoint(3.1);

@@ -62,7 +62,7 @@ void Team316Robot::ProcessCameraImage()
 		{
 			// Perform one time setup
 			camera.WriteCompression(30);
-			camera.WriteResolution(AxisCameraParams::kResolution_320x240);
+			camera.WriteResolution(AxisCameraParams::kResolution_160x120);
 			camera.WriteWhiteBalance(AxisCameraParams::kWhiteBalance_Hold);
 			camera.WriteExposureControl(AxisCameraParams::kExposure_Hold);
 			cameraSetupDone = true;
