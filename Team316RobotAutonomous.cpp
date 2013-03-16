@@ -161,7 +161,7 @@ void Team316Robot::AutonomousMode2()
 		case 1:
 			// Turn the motor on and wait till we're up to speed
 			cout << "Step1" << endl;
-			shooterAngleController->SetSetpoint(3.65);
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 			shooterAngleController->Enable();
 			shooterSpeedController->SetSetpoint(4500);
 			shooterSpeedController->Enable();
@@ -279,13 +279,13 @@ void Team316Robot::AutonomousMode2()
 			break;
 		case 11:
 			// Drive forwards to the goal
-			shooterAngleController->SetSetpoint(3.65);
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 			shooterAngleController->Enable();
 			
-			frontLeftDriveMotor->Set(0.5);
-			rearLeftDriveMotor->Set(0.5);
-			frontRightDriveMotor->Set(-0.5);
-			rearRightDriveMotor->Set(-0.5);
+			frontLeftDriveMotor->Set(0.4);
+			rearLeftDriveMotor->Set(0.4);
+			frontRightDriveMotor->Set(-0.4);
+			rearRightDriveMotor->Set(-0.4);
 			
 			pickupAngleMotor->Set(1.0);
 			pickupMotor->Set(0.0);

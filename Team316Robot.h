@@ -99,7 +99,14 @@ private:
 	
 	void ProcessCameraImage();
 	void UpdateSmartDashboard();
+
 	
+	//
+	// Constants
+	//
+	const static float SHOOTER_TOP_HEIGHT = 3.59;
+	const static float SHOOTER_MID_HEIGHT = 3.49;
+	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
 public:
 	//
 	// Constructor and destructor

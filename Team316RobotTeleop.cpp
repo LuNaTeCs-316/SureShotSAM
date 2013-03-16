@@ -128,9 +128,13 @@ void Team316Robot::TeleopPeriodic()
 		pickupAngleMotor->Set(operatorJoystick->GetX());
 	}
 	*/
-	if (driverController->GetRawButton(5)) {
+	if (driverController->GetRawButton(5)
+//			&& (shooterAngleController->GetSetpoint() <= 3.2) 
+			) {
 		pickupAngleMotor->Set(1.0);
-	} else if (driverController->GetRawButton(6)) {
+	} else if ( driverController->GetRawButton(6)
+//			&& (shooterAngleController->GetSetpoint() <= 3.2) 
+			) {
 		pickupAngleMotor->Set(-1.0);
 	} else {
 		pickupAngleMotor->Set(0.0);
@@ -176,17 +180,17 @@ void Team316Robot::TeleopPeriodic()
 	// Angle Control
 	if (operatorJoystick->GetRawButton(11)) //3 point target
 	{
-		shooterAngleController->SetSetpoint(3.65);
+		shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 		shooterAngleController->Enable();
 	}
 	else if (operatorJoystick->GetRawButton(10)) //2 point target
 	{
-		shooterAngleController->SetSetpoint(3.55);
+		shooterAngleController->SetSetpoint(SHOOTER_MID_HEIGHT);
 		shooterAngleController->Enable();
 	}
-	else if(operatorJoystick->GetRawButton(6))
+	else if(operatorJoystick->GetRawButton(6)) //pickup position
 	{
-		shooterAngleController->SetSetpoint(2.5);
+		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
 		shooterAngleController->Enable();
 	}
 	else
