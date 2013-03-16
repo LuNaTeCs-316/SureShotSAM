@@ -91,8 +91,12 @@ private:
 	int step;
 	void AutonomousMode1();
 	void AutonomousMode2();
+<<<<<<< HEAD
 	void AutonomousMode3();
 	
+=======
+
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 	//
 	// Private member functions
 	//

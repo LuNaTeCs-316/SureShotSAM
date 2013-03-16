@@ -54,9 +54,12 @@ void Team316Robot::AutonomousPeriodic()
 		case 2:
 			AutonomousMode2();
 			break;
+<<<<<<< HEAD
 		case 3:
 			AutonomousMode3();
 			break;
+=======
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 		default:
 			// Do nothing
 			break;
@@ -72,7 +75,7 @@ void Team316Robot::AutonomousMode1()
 		case 1:
 			// Turn the motor on and wait till we're up to speed
 			cout << "Step1" << endl;
-			shooterAngleController->SetSetpoint(3.65);
+			shooterAngleController->SetSetpoint(4.2);
 			shooterAngleController->Enable();
 			shooterSpeedController->SetSetpoint(4500);
 			shooterSpeedController->Enable();
@@ -161,24 +164,27 @@ void Team316Robot::AutonomousMode2()
 		case 1:
 			// Turn the motor on and wait till we're up to speed
 			cout << "Step1" << endl;
+<<<<<<< HEAD
 			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+=======
+			shooterAngleController->SetSetpoint(4.25);
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 			shooterAngleController->Enable();
 			shooterSpeedController->SetSetpoint(4500);
 			shooterSpeedController->Enable();
 			
 			// Terminating condition check
-			if ( (shooterSpeedCounter->PIDGet() > 3800)
-				|| ((GetClock() - startTime) > 1.5) ) {
+			if (shooterSpeedCounter->PIDGet() > 3900) {
 				step++;
 				startTime = GetClock();
 			}
 			break;
 		case 2:
 			// Fire the first shot
-			cout << "Step2, Time: " << (GetClock() - startTime) << endl;
+			cout << "Step2" << endl;
 			shooterAngleController->Disable();
 			shooterPistonSolenoid->Set(true);
-	
+
 			
 			if ((GetClock() - startTime) > 0.15) {
 				step++;
@@ -190,8 +196,7 @@ void Team316Robot::AutonomousMode2()
 			cout << "Step3" << endl;
 			shooterPistonSolenoid->Set(false);
 			
-			if ( (shooterSpeedCounter->PIDGet() > 3800)
-				|| ((GetClock() - startTime) > 1.5) ) {
+			if (shooterSpeedCounter->PIDGet() > 3900) {
 				step++;
 				startTime = GetClock();
 			}
@@ -211,8 +216,7 @@ void Team316Robot::AutonomousMode2()
 			cout << "Step5" << endl;
 			shooterPistonSolenoid->Set(false);
 			
-			if ( (shooterSpeedCounter->PIDGet() > 3800)
-				|| ((GetClock() - startTime) > 1.5) ) {
+			if (shooterSpeedCounter->PIDGet() > 3900) {
 				step++;
 				startTime = GetClock();
 			}
@@ -230,20 +234,29 @@ void Team316Robot::AutonomousMode2()
 		case 7:
 			// Cleanup
 			cout << "Step7" << endl;
+			shooterAngleController->SetSetpoint(3.1);
 			shooterPistonSolenoid->Set(false);
 			shooterSpeedController->Disable();
 			shooterAngleController->SetSetpoint(2.25);
 			shooterAngleController->Enable();
 			step++;
+			startTime = GetClock();
 			break;
 		case 8:
 			// Lower the pickup
 			cout << "Step8" << endl;
 			
+<<<<<<< HEAD
 			pickupAngleMotor->Set(-1);
 			pickupMotor->Set(-0.9);
 			
 			if ((GetClock() - startTime) > 2.5) {
+=======
+			pickupAngleMotor->Set(-0.75);
+			pickupMotor->Set(0.9);
+			
+			if ((GetClock() - startTime) > 0.5) {
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 				step++;
 				startTime = GetClock();
 			}
@@ -252,12 +265,21 @@ void Team316Robot::AutonomousMode2()
 			// Drive backwards to pickup the frisbees
 			cout << "Step9" << endl;
 			
+<<<<<<< HEAD
 			frontLeftDriveMotor->Set(-0.5);
 			rearLeftDriveMotor->Set(-0.5);
 			frontRightDriveMotor->Set(0.5);
 			rearRightDriveMotor->Set(0.5);
+=======
+			pickupAngleMotor->Set(0.0);
 			
-			if ((GetClock() - startTime) > 1.5) {
+			frontLeftDriveMotor->Set(-0.75);
+			rearLeftDriveMotor->Set(-0.75);
+			frontRightDriveMotor->Set(0.75);
+			rearRightDriveMotor->Set(0.75);
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
+			
+			if ((GetClock() - startTime) > 1.0) {
 				step++;
 				startTime = GetClock();
 			}
@@ -279,6 +301,7 @@ void Team316Robot::AutonomousMode2()
 			break;
 		case 11:
 			// Drive forwards to the goal
+<<<<<<< HEAD
 			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 			shooterAngleController->Enable();
 			
@@ -286,11 +309,20 @@ void Team316Robot::AutonomousMode2()
 			rearLeftDriveMotor->Set(0.4);
 			frontRightDriveMotor->Set(-0.4);
 			rearRightDriveMotor->Set(-0.4);
+=======
+			shooterAngleController->SetSetpoint(4.25);
+			shooterAngleController->Enable();
+			
+			frontLeftDriveMotor->Set(0.75);
+			rearLeftDriveMotor->Set(0.75);
+			frontRightDriveMotor->Set(-0.75);
+			rearRightDriveMotor->Set(-0.75);
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 			
 			pickupAngleMotor->Set(1.0);
 			pickupMotor->Set(0.0);
 			
-			if ((GetClock() - startTime) > 1.5) {
+			if ((GetClock() - startTime) > 1.0) {
 				step++;
 				startTime = GetClock();
 			}
@@ -361,6 +393,7 @@ void Team316Robot::AutonomousMode2()
 			break;
 	}
 }
+<<<<<<< HEAD
 
 void Team316Robot::AutonomousMode3()
 {
@@ -630,3 +663,5 @@ void Team316Robot::AutonomousMode3()
 		
 	}
 }
+=======
+>>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
