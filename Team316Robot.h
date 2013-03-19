@@ -92,14 +92,12 @@ private:
 	void AutonomousMode1();
 	void AutonomousMode2();
 	void AutonomousMode3();
-	void AutonomousMode4();
-	void AutonomousMode5();
 	
 	//
 	// Private member functions
 	//
 	
-	void ProcessCameraImage();
+	//void ProcessCameraImage();
 	void UpdateSmartDashboard();
 	
 public:

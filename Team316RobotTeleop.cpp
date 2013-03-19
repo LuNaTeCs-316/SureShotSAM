@@ -240,6 +240,7 @@ void Team316Robot::TeleopPeriodic()
 		climbingSolenoid->Set(false);
 	}
 	
+	/*
 	// Camera snapshot
 	AxisCamera &camera = AxisCamera::GetInstance();
 	static bool prevCameraButtonValue = false;
@@ -258,6 +259,7 @@ void Team316Robot::TeleopPeriodic()
 		delete image;
 	}
 	prevCameraButtonValue = cameraButtonValue;
+	*/
 	
 	// Send data to the dashboard
 	UpdateSmartDashboard();
