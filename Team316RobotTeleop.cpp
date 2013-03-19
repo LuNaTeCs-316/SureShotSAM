@@ -180,25 +180,17 @@ void Team316Robot::TeleopPeriodic()
 	// Angle Control
 	if (operatorJoystick->GetRawButton(11)) //3 point target
 	{
-<<<<<<< HEAD
 		shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-=======
-		shooterAngleController->SetSetpoint(4.2);
->>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 		shooterAngleController->Enable();
 	}
 	else if (operatorJoystick->GetRawButton(10)) //2 point target
 	{
-<<<<<<< HEAD
 		shooterAngleController->SetSetpoint(SHOOTER_MID_HEIGHT);
 		shooterAngleController->Enable();
 	}
 	else if(operatorJoystick->GetRawButton(6)) //pickup position
 	{
 		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
-=======
-		shooterAngleController->SetSetpoint(4.1);
->>>>>>> parent of c8892c9... Add skeleton code for Autonomous Modes 3-5
 		shooterAngleController->Enable();
 	}
 	else
@@ -252,6 +244,7 @@ void Team316Robot::TeleopPeriodic()
 		climbingSolenoid->Set(false);
 	}
 	
+	/*
 	// Camera snapshot
 	AxisCamera &camera = AxisCamera::GetInstance();
 	static bool prevCameraButtonValue = false;
@@ -270,6 +263,7 @@ void Team316Robot::TeleopPeriodic()
 		delete image;
 	}
 	prevCameraButtonValue = cameraButtonValue;
+	*/
 	
 	// Send data to the dashboard
 	UpdateSmartDashboard();
