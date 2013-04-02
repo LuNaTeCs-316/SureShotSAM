@@ -1,8 +1,13 @@
+//***************************************
+// LuNaTeCs - team 316
+// code for the 2013 robot
+// for the FRC game - ultimate assent
 //
 // Team316RobotDisabled.cpp
 //
 // Disabled mode functions
-//
+//***************************************
+
 
 #include "Team316Robot.h"
 
@@ -25,5 +30,5 @@ void Team316Robot::DisabledPeriodic()
 {
 	// Send data to the dashboard
 	driveMotors->ArcadeDrive(0.0, 0.0);
-	UpdateSmartDashboard();
+	//UpdateSmartDashboard();
 }

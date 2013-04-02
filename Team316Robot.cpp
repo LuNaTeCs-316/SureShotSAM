@@ -1,8 +1,14 @@
+//***************************************
+// LuNaTeCs - team 316
+// code for the 2013 robot
+// for the FRC game - ultimate assent
 //
 // Team316Robot.cpp
 //
 // Initialization and robot-wide code
-//
+//***************************************
+
+
 
 #include "Team316Robot.h"
 
@@ -27,6 +33,13 @@ Team316Robot::Team316Robot()
 	driveMotors = new RobotDrive(frontLeftDriveMotor, frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
 	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k4X);
 	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k4X);
+
+	//leftFrontDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, frontLeftDriveMotor);
+	//leftRearDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, rearLeftDriveMotor);
+	//rightFrontDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, frontRightDriveMotor);
+	//rightRearDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, rearRightDriveMotor);
+
+
 	
 	// Pickup
 	pickupBeltRelay = new Relay(PICKUP_BELT_RELAY);
@@ -43,7 +56,7 @@ Team316Robot::Team316Robot()
 	shooterAnglePot = new Potentiometer(SHOOTER_ANGLE_POT);
 	shooterAngleController = new PIDController(22.5, 0.0, 0.0, shooterAnglePot, shooterAngleMotor);
 	shooterPistonSolenoid = new Solenoid(SHOOTER_PISTON_SOLENOID);
-	
+
 	// Climbing
 	climbingSolenoid = new Solenoid(CLIMBING_SOLENOID);
 	
@@ -77,7 +90,17 @@ void Team316Robot::RobotInit()
 	//
 	leftDriveEncoder->Start();
 	rightDriveEncoder->Start();
+
+	leftDriveEncoder->Reset();
+	rightDriveEncoder->Reset();
 	
+	//our encoders are set to 4 pulse so this constant below will equate the encode value into meaningful units so
+	//we can use the get distance function
+	//
+	//through experimentation we found out the values below
+	leftDriveEncoder->SetDistancePerPulse(0.01);
+	rightDriveEncoder->SetDistancePerPulse(0.035);
+
 	driveMotors->SetSafetyEnabled(false);
 	driveMotors->SetExpiration(0.1);
 	driveMotors->SetMaxOutput(1.0);
@@ -91,9 +114,9 @@ void Team316Robot::RobotInit()
 	
 	compressor->Start();
 	
-	autoModeChooser->AddDefault("Mode 1", (char*) "Mode 1");
-	autoModeChooser->AddObject("Mode 2", (char*) "Mode 2");
-	SmartDashboard::PutData("Autonomous Mode Chooser", autoModeChooser);
+//	autoModeChooser->AddDefault("Mode 1", (char*) "Mode 1");
+//	autoModeChooser->AddObject("Mode 2", (char*) "Mode 2");
+//	SmartDashboard::PutData("Autonomous Mode Chooser", autoModeChooser);
 	
 	//
 	// Configure LiveWindow
@@ -134,20 +157,18 @@ void Team316Robot::UpdateSmartDashboard()
 	/*
 	SmartDashboard::PutNumber("LeftDriveMotorSpeed", frontLeftDriveMotor->Get());
 	SmartDashboard::PutNumber("RightDriveMotorSpeed", frontRightDriveMotor->Get());
-	SmartDashboard::PutNumber("LeftEncoderRate", leftDriveEncoder->GetRate());
-	SmartDashboard::PutNumber("RightEncoderRate", rightDriveEncoder->GetRate());
-	SmartDashboard::PutNumber("LeftEncoderDistance", leftDriveEncoder->GetDistance());
-	SmartDashboard::PutNumber("RightEncoderDistance", rightDriveEncoder->GetDistance());
 	
 	SmartDashboard::PutNumber("PickupAngleMotorSpeed", pickupAngleMotor->Get());
 	SmartDashboard::PutNumber("PickupAngle", pickupAnglePot->GetAverageVoltage());
 	
-	SmartDashboard::PutNumber("ShooterMotorSpeed", shooterMotor->Get());
-	SmartDashboard::PutNumber("ShooterSpeedCount", shooterSpeedCounter->Get());
 	SmartDashboard::PutNumber("ShooterSpeedRPM", shooterSpeedCounter->GetRPM());
-	SmartDashboard::PutNumber("ShooterAngleMotor", shooterAngleMotor->Get());
-	SmartDashboard::PutNumber("ShooterAngle", shooterAnglePot->GetAverageVoltage());
 	*/
+	SmartDashboard::PutNumber("LeftEncoderRate", leftDriveEncoder->GetRate());
+	SmartDashboard::PutNumber("RightEncoderRate", rightDriveEncoder->GetRate());
+
+	SmartDashboard::PutNumber("LeftEncoderDistance", leftDriveEncoder->GetDistance());
+	SmartDashboard::PutNumber("RightEncoderDistance", rightDriveEncoder->GetDistance());
+
 	SmartDashboard::PutNumber("ShooterAngle", shooterAnglePot->PIDGet());
 	SmartDashboard::PutNumber("ShooterSpeed", shooterSpeedCounter->PIDGet());
 	SmartDashboard::PutNumber("ShooterOutput", shooterMotor->Get());

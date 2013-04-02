@@ -1,8 +1,14 @@
+//***************************************
+// LuNaTeCs - team 316
+// code for the 2013 robot
+// for the FRC game - ultimate assent
 //
 // Team316RobotTeleop.cpp
 //
 // Teleop mode functions
-//
+//***************************************
+
+
 
 #include "Team316Robot.h"
 #include "Vision/RGBImage.h"
@@ -108,6 +114,9 @@ void Team316Robot::TeleopPeriodic()
 	rearLeftDriveMotor->Set(left);
 	frontRightDriveMotor->Set(-right);
 	rearRightDriveMotor->Set(-right);
+
+
+
 	
 	//
 	// Pickup
@@ -128,11 +137,12 @@ void Team316Robot::TeleopPeriodic()
 		pickupAngleMotor->Set(operatorJoystick->GetX());
 	}
 	*/
-	if (driverController->GetRawButton(5)
+
+	if (driverController->GetRawButton(PICKUP_LOWER_BUTTON)
 //			&& (shooterAngleController->GetSetpoint() <= 3.2) 
 			) {
 		pickupAngleMotor->Set(1.0);
-	} else if ( driverController->GetRawButton(6)
+	} else if ( driverController->GetRawButton(PICKUP_RAISE_BUTTON)
 //			&& (shooterAngleController->GetSetpoint() <= 3.2) 
 			) {
 		pickupAngleMotor->Set(-1.0);
@@ -143,20 +153,20 @@ void Team316Robot::TeleopPeriodic()
 	SmartDashboard::PutNumber("PickupAngle", pickupAnglePot->GetAverageVoltage());
 	
 	/*
-	if (operatorJoystick->GetRawButton(6)) {
+	if (operatorJoystick->GetRawButton(PICKUP_ON_BUTTON)) {
 		pickupBeltRelay->Set(Relay::kForward);
-	} else if (operatorJoystick->GetRawButton(7)) {
+	} else if (operatorJoystick->GetRawButton(PICKUP_REVERSE_BUTTON)) {
 		pickupBeltRelay->Set(Relay::kReverse);
 	} else {
 		pickupBeltRelay->Set(Relay::kOff);
 	}
 	*/
 	
-	if (operatorJoystick->GetRawButton(6)) {
+	if (operatorJoystick->GetRawButton(PICKUP_ON_BUTTON)) {
 		pickupBeltRelay->Set(Relay::kForward);
 		pickupMotor->Set(-operatorJoystick->GetZ());
 	} 
-	else if (operatorJoystick->GetRawButton(7)) {
+	else if (operatorJoystick->GetRawButton(PICKUP_REVERSE_BUTTON)) {
 		pickupMotor->Set(operatorJoystick->GetZ());
 	}
 	else {
@@ -176,19 +186,25 @@ void Team316Robot::TeleopPeriodic()
 		ProcessCameraImage();
 	prevAimingButtonValue = aimingButtonValue;
 	*/
+
+
+
+
+
 	
-	// Angle Control
-	if (operatorJoystick->GetRawButton(11)) //3 point target
+	// Angle Control using the worm drive
+
+	if (operatorJoystick->GetRawButton(SHOOTER_TOP_HEIGHT_BUTTON) ) //3 point target
 	{
 		shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 		shooterAngleController->Enable();
 	}
-	else if (operatorJoystick->GetRawButton(10)) //2 point target
+	else if (operatorJoystick->GetRawButton(SHOOTER_MID_HEIGHT_BUTTON)) //2 point target
 	{
 		shooterAngleController->SetSetpoint(SHOOTER_MID_HEIGHT);
 		shooterAngleController->Enable();
 	}
-	else if(operatorJoystick->GetRawButton(6)) //pickup position
+	else if(operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON)) //pickup position
 	{
 		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
 		shooterAngleController->Enable();
@@ -206,7 +222,13 @@ void Team316Robot::TeleopPeriodic()
 		// Manually control the shooter angle motor
 		shooterAngleMotor->Set(shooterAngleMotorSpeed);
 	}
+
+
+
 	
+
+
+
 	// Motor Control
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))
 	{
@@ -266,5 +288,5 @@ void Team316Robot::TeleopPeriodic()
 	*/
 	
 	// Send data to the dashboard
-	UpdateSmartDashboard();
+	//UpdateSmartDashboard();
 }

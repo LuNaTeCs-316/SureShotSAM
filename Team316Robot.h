@@ -1,3 +1,7 @@
+//***************************************
+// LuNaTeCs - team 316
+// code for the 2013 robot
+// for the FRC game - ultimate assent
 //
 // Team316Robot.h
 //
@@ -5,12 +9,13 @@
 //
 // The implementation for each robot mode is split into seperate files:
 // - Team316Robot.cpp:				Robot-wide and initializtion code
-// - Team316RobotAutonomous.cpp:	Autonomous mode
-// - Team316RobotTeleop.cpp:		Teleop mode
+// - Team316RobotAutonomous.cpp:		Autonomous mode
+// - Team316RobotTeleop.cpp:			Teleop mode
 // - Team316RobotTest.cpp:			Test mode
 // - Team316RobotDisabled.cpp:		Disabled mode
-// - Team316RobotVision.cpp:		Vision code
-//
+// - Team316RobotVision.cpp:			Vision code
+//***************************************
+
 
 #ifndef TEAM316_ROBOT_H_
 #define TEAM316_ROBOT_H_
@@ -25,6 +30,27 @@
 class Team316Robot : public IterativeRobot
 {
 private:
+	//
+	// Constants
+	//
+	//use this one when in game - lenape
+	const static float SHOOTER_TOP_HEIGHT = 3.7;
+
+	//at lenape practice field
+//	const static float SHOOTER_TOP_HEIGHT = 3.63;
+
+	//at chestnut hill
+//	const static float SHOOTER_TOP_HEIGHT = 3.59;
+
+	//use this one when on practice field in davidow since it does
+	//not have lip surrounding pyramid
+//	const static float SHOOTER_TOP_HEIGHT = 3.75;
+
+	const static float SHOOTER_MID_HEIGHT = 3.49;
+	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
+
+	const static float SHOOTER_TEST_LOAD_HEIGHT = 2.5;
+
 	//
 	// Declare member variables for the operator interface
 	//
@@ -44,8 +70,13 @@ private:
 	RobotDrive* 		driveMotors;
 	Encoder* 			leftDriveEncoder;
 	Encoder* 			rightDriveEncoder;
+
+//	PIDController*		leftFrontDriveSpeedController;
+//	PIDController*		leftRearDriveSpeedController;
+//	PIDController*		rightFrontDriveSpeedController;
+//	PIDController*		rightRearDriveSpeedController;
 	
-	// Intake
+	// Pickup assembly
 	Relay* 				pickupBeltRelay;
 	SpeedController* 	pickupAngleMotor;
 	Potentiometer* 		pickupAnglePot;
@@ -89,9 +120,15 @@ private:
 	SendableChooser* autoModeChooser;
 	int autoMode;
 	int step;
+	double startTime;
+	double beginTime;
+
 	void AutonomousMode1();
 	void AutonomousMode2();
 	void AutonomousMode3();
+	void AutonomousMode4();
+	void AutonomousMode5();
+	void AutonomousMode6();
 	
 	//
 	// Private member functions
@@ -101,12 +138,6 @@ private:
 	void UpdateSmartDashboard();
 
 	
-	//
-	// Constants
-	//
-	const static float SHOOTER_TOP_HEIGHT = 3.59;
-	const static float SHOOTER_MID_HEIGHT = 3.49;
-	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
 public:
 	//
 	// Constructor and destructor
