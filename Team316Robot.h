@@ -1,21 +1,23 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// Team316Robot.h
-//
-// Header file for the Robot program
-//
-// The implementation for each robot mode is split into seperate files:
-// - Team316Robot.cpp:				Robot-wide and initializtion code
-// - Team316RobotAutonomous.cpp:		Autonomous mode
-// - Team316RobotTeleop.cpp:			Teleop mode
-// - Team316RobotTest.cpp:			Test mode
-// - Team316RobotDisabled.cpp:		Disabled mode
-// - Team316RobotVision.cpp:			Vision code
-//***************************************
-
+/*******************************************************************************
+ * Team316Robot.h - Header file for the Robot program
+ *
+ * Copyright (c) 2013 FIRST Team 316. All Rights Reserved.
+ * No robots were harmed in the writing of this code.
+ * 
+ * Copy under pain of torture and/or death.
+ *
+ * Code for the 2013 robot, Sure Shot SAM.
+ * for the FRC game - Ultimate Ascent
+ *
+ * The implementation for each robot mode is split into seperate files:
+ * - Team316Robot.cpp:					Robot-wide and initializtion code
+ * - Team316RobotAutonomous.cpp:		Autonomous mode
+ * - Team316RobotTeleop.cpp:			Teleop mode
+ * - Team316RobotTest.cpp:				Test mode
+ * - Team316RobotDisabled.cpp:			Disabled mode
+ * - Team316RobotVision.cpp:			Vision code
+ *
+ ******************************************************************************/
 
 #ifndef TEAM316_ROBOT_H_
 #define TEAM316_ROBOT_H_
@@ -33,18 +35,13 @@ private:
 	//
 	// Constants
 	//
-	//use this one when in game - lenape
+	
+	// use this one when in game - lenape
 	const static float SHOOTER_TOP_HEIGHT = 3.7;
 
-	//at lenape practice field
-//	const static float SHOOTER_TOP_HEIGHT = 3.63;
-
-	//at chestnut hill
-//	const static float SHOOTER_TOP_HEIGHT = 3.59;
-
-	//use this one when on practice field in davidow since it does
-	//not have lip surrounding pyramid
-//	const static float SHOOTER_TOP_HEIGHT = 3.75;
+	// use this one when on practice field in davidow since it does
+	// not have lip surrounding pyramid
+	//const static float SHOOTER_TOP_HEIGHT = 3.75;
 
 	const static float SHOOTER_MID_HEIGHT = 3.49;
 	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
@@ -52,7 +49,7 @@ private:
 	const static float SHOOTER_TEST_LOAD_HEIGHT = 2.5;
 
 	//
-	// Declare member variables for the operator interface
+	// Declare member variables for the operator interface components
 	//
 	DriverStation* 	ds;
 	Joystick* 		driverController;
@@ -70,20 +67,15 @@ private:
 	RobotDrive* 		driveMotors;
 	Encoder* 			leftDriveEncoder;
 	Encoder* 			rightDriveEncoder;
-
-//	PIDController*		leftFrontDriveSpeedController;
-//	PIDController*		leftRearDriveSpeedController;
-//	PIDController*		rightFrontDriveSpeedController;
-//	PIDController*		rightRearDriveSpeedController;
 	
-	// Pickup assembly
+	// Frisbee Acquisition Device
 	Relay* 				pickupBeltRelay;
 	SpeedController* 	pickupAngleMotor;
 	Potentiometer* 		pickupAnglePot;
 	PIDController*		pickupAngleController;
 	Victor*				pickupMotor;
 	
-	// Shooter
+	// High velocity 
 	SpeedController* 	shooterMotor;
 	SpeedCounter* 		shooterSpeedCounter;
 	PIDController*		shooterSpeedController;
@@ -92,7 +84,7 @@ private:
 	PIDController* 		shooterAngleController;
 	Solenoid*			shooterPistonSolenoid;
 
-	// Climbing
+	// Vertical Ascent Initiator
 	Solenoid* climbingSolenoid;
 	
 	// Compressor
@@ -103,11 +95,6 @@ private:
 	// Declare LiveWindow
 	//
 	LiveWindow* liveWindow;
-	
-	//
-	// Declare NetworkTable for Camera data
-	//
-	//NetworkTable* table;
 	
 	//
 	// Robot Preferences
@@ -123,6 +110,9 @@ private:
 	double startTime;
 	double beginTime;
 
+	//
+	// Autonomous Sub-Routines
+	//
 	void AutonomousMode1();
 	void AutonomousMode2();
 	void AutonomousMode3();
@@ -140,7 +130,7 @@ private:
 	
 public:
 	//
-	// Constructor and destructor
+	// Robot Constructor
 	//
 	Team316Robot();
 
@@ -204,4 +194,4 @@ public:
 	void DisabledPeriodic();
 };
 
-#endif
+#endif	// TEAM316ROBOT_H_
