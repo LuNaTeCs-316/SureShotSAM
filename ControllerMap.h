@@ -1,18 +1,19 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// ControllerMap.h
-//
-// Maps joysticks buttons to names
-//***************************************
+/*******************************************************************************
+ * ControllerMap.cpp - Maps joysticks buttons to names
+ *
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All rights reserved.
+ *
+ * Code for our 2013 Robot, Sure Shot SAM
+ * for the FRC game Ultimate Ascent 
+ *
+ ******************************************************************************/
 
 #ifndef CONTROLLERMAP_H_
 #define CONTROLLERMAP_H_
 
-
-//atac shooter controller
+//
+// Logitech Attack 3 Joystick - Operator
+//
 #define SHOOTER_FIRING_BUTTON		1
 #define SHOOTER_MOTOR_BUTTON		2
 #define SHOOTER_AIMING_BUTTON		3
@@ -27,7 +28,9 @@
 #define CAMERA_SNAPSHOT_BUTTON	9
 
 
-//XBOX drive controller
+//
+// XBOX 360 controller - Driver
+//
 #define PICKUP_LOWER_BUTTON		5
 #define PICKUP_RAISE_BUTTON		6
 
