@@ -1,13 +1,12 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// Team316RobotDisabled.cpp
-//
-// Disabled mode functions
-//***************************************
-
+/*******************************************************************************
+ * Team316RobotDisable.cpp - Disabled mode functions
+ *
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All rights reserved.
+ *
+ * Code for our 2013 Robot, Sure Shot SAM
+ * for the FRC game Ultimate Ascent
+ *
+ ******************************************************************************/
 
 #include "Team316Robot.h"
 
@@ -16,10 +15,7 @@
 //
 // Setup for disabled mode
 //
-void Team316Robot::DisabledInit()
-{
-	// Nothing to do
-}
+void Team316Robot::DisabledInit() {}
 
 //
 // DisabledPeriodic()
@@ -28,7 +24,22 @@ void Team316Robot::DisabledInit()
 //
 void Team316Robot::DisabledPeriodic()
 {
-	// Send data to the dashboard
+    // 
+    // Stop all outputs
+    //
 	driveMotors->ArcadeDrive(0.0, 0.0);
-	//UpdateSmartDashboard();
+	
+    pickupBeltRelay->Set(Relay::kOff);
+    pickupAngleMotor->Set(0.0);
+
+    shooterMotor->Set(0.0);
+    shooterSpeedController->Disable();
+    shooterAngleMotor->Set(0.0);
+    shooterAngleController->Disable();
+    shooterPistonSolenoid->Set(false);
+
+    climbingSolenoid->Set(false);
+
+    // Send data to the dashboard
+    //UpdateSmartDashboard();
 }
