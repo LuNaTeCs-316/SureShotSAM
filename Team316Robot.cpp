@@ -1,14 +1,12 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// Team316Robot.cpp
-//
-// Initialization and robot-wide code
-//***************************************
-
-
+/*******************************************************************************
+ * Team316Robot.cpp - Initialization and robot-wide code.
+ *
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All rights reserved.
+ *
+ * Code for our 2013 Robot, Sure Shot SAM
+ * for the FRC game Ultimate Ascent 
+ *
+ ******************************************************************************/
 
 #include "Team316Robot.h"
 
@@ -34,13 +32,6 @@ Team316Robot::Team316Robot()
 	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k4X);
 	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k4X);
 
-	//leftFrontDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, frontLeftDriveMotor);
-	//leftRearDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, rearLeftDriveMotor);
-	//rightFrontDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, frontRightDriveMotor);
-	//rightRearDriveSpeedController = new PIDController(.5, 0.0, 0.0, leftDriveEncoder, rearRightDriveMotor);
-
-
-	
 	// Pickup
 	pickupBeltRelay = new Relay(PICKUP_BELT_RELAY);
 	pickupAngleMotor = new Jaguar(PICKUP_ANGLE_MOTOR);
@@ -69,9 +60,6 @@ Team316Robot::Team316Robot()
 	// Robot Preferences
 	prefs = Preferences::GetInstance();
 	
-	// Network Tables
-	//table = NetworkTable::GetTable("SmartDashboard");
-	
 	// Autonomous mode
 	autoModeChooser = new SendableChooser();
 	
@@ -94,30 +82,27 @@ void Team316Robot::RobotInit()
 	leftDriveEncoder->Reset();
 	rightDriveEncoder->Reset();
 	
-	//our encoders are set to 4 pulse so this constant below will equate the encode value into meaningful units so
-	//we can use the get distance function
+	// our encoders are set to 4 pulse so this constant below will equate the encode value into meaningful units so
+	// we can use the get distance function
 	//
-	//through experimentation we found out the values below
+	// through experimentation we found out the values below
 	leftDriveEncoder->SetDistancePerPulse(0.01);
 	rightDriveEncoder->SetDistancePerPulse(0.035);
 
+	//
+	// Configure the drive motors
+	//
 	driveMotors->SetSafetyEnabled(false);
 	driveMotors->SetExpiration(0.1);
 	driveMotors->SetMaxOutput(1.0);
 	driveMotors->SetSensitivity(0.5);
 	
-	//driveMotors->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
-	//driveMotors->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
-	//driveMotors->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
-	//driveMotors->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
+	//
+	// Start the speed counter and the compressor
+	//
 	shooterSpeedCounter->Start();
-	
 	compressor->Start();
-	
-//	autoModeChooser->AddDefault("Mode 1", (char*) "Mode 1");
-//	autoModeChooser->AddObject("Mode 2", (char*) "Mode 2");
-//	SmartDashboard::PutData("Autonomous Mode Chooser", autoModeChooser);
-	
+		
 	//
 	// Configure LiveWindow
 	//
@@ -143,14 +128,16 @@ void Team316Robot::RobotInit()
 	
 	liveWindow->AddActuator("Climbing", "Solenoid", climbingSolenoid);
 	
+	// Message indicating setup is done
 	std::cout << "RobotInit Done" << std::endl;
 }
 
 //
 // UpdateSmartDashboard()
 //
-// Send robot data to the SmartDashboard for debugging purposes. Can be called
-// from any periodic loop.
+// Send robot data to the SmartDashboard for debugging purposes. Be carefull
+// not to call this too often, as it can cause network lag and potentially
+// crash the robot code.
 //
 void Team316Robot::UpdateSmartDashboard()
 {

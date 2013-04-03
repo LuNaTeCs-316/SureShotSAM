@@ -1,13 +1,13 @@
 /*******************************************************************************
  * Team316Robot.h - Header file for the Robot program
  *
- * Copyright (c) 2013 FIRST Team 316. All Rights Reserved.
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All Rights Reserved.
  * No robots were harmed in the writing of this code.
  * 
  * Copy under pain of torture and/or death.
  *
- * Code for the 2013 robot, Sure Shot SAM.
- * for the FRC game - Ultimate Ascent
+ * Code for our 2013 robot, Sure Shot SAM.
+ * for the FRC game Ultimate Ascent
  *
  * The implementation for each robot mode is split into seperate files:
  * - Team316Robot.cpp:					Robot-wide and initializtion code
@@ -36,16 +36,19 @@ private:
 	// Constants
 	//
 	
-	// use this one when in game - lenape
-	const static float SHOOTER_TOP_HEIGHT = 3.7;
+	// Shooter setpoints
 
-	// use this one when on practice field in davidow since it does
-	// not have lip surrounding pyramid
-	//const static float SHOOTER_TOP_HEIGHT = 3.75;
+	// Value for highest target
+	const static float SHOOTER_TOP_HEIGHT = 3.7;		// for in competition
+	//const static float SHOOTER_TOP_HEIGHT = 3.75;		// for practice; no lip at pyramid
 
+	// Value for lower target
 	const static float SHOOTER_MID_HEIGHT = 3.49;
+	
+	// Absolute bottom value
 	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
-
+	
+	// Value for loading
 	const static float SHOOTER_TEST_LOAD_HEIGHT = 2.5;
 
 	//
@@ -68,14 +71,14 @@ private:
 	Encoder* 			leftDriveEncoder;
 	Encoder* 			rightDriveEncoder;
 	
-	// Frisbee Acquisition Device
+	// Pickup
 	Relay* 				pickupBeltRelay;
 	SpeedController* 	pickupAngleMotor;
 	Potentiometer* 		pickupAnglePot;
 	PIDController*		pickupAngleController;
 	Victor*				pickupMotor;
 	
-	// High velocity 
+	// Shooter
 	SpeedController* 	shooterMotor;
 	SpeedCounter* 		shooterSpeedCounter;
 	PIDController*		shooterSpeedController;
@@ -104,7 +107,7 @@ private:
 	//
 	// Autonomous Data
 	//
-	SendableChooser* autoModeChooser;
+	SendableChooser* autoModeChooser;	// Can probably be removed
 	int autoMode;
 	int step;
 	double startTime;

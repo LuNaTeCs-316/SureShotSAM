@@ -1,25 +1,22 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// Team316RobotTest.cpp
-//
-// Test mode functions
-//***************************************
-
+/*******************************************************************************
+ * Team316RobotTest.cpp - Test mode functions
+ *
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All rights reserved.
+ *
+ * Code for our 2013 Robot, Sure Shot SAM
+ * for the FRC game Ultimate Ascent 
+ *
+ ******************************************************************************/
 
 #include "Team316Robot.h"
 
 //
 // TestInit()
 //
-// Setup for test mode
+// Called once upon entering test mode. All setup code for test mode
+// should be placed here.
 //
-void Team316Robot::TestInit()
-{
-	// Nothing to do
-}
+void Team316Robot::TestInit() {}    // Nothing to do at the moment
 
 //
 // TestPeriodic()
