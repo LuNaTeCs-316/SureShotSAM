@@ -1,17 +1,16 @@
-//***************************************
-// LuNaTeCs - team 316
-// code for the 2013 robot
-// for the FRC game - ultimate assent
-//
-// Team316RobotAutonomous.cpp
-//
-// Autonomous mode functions
-//***************************************
-
+/*******************************************************************************
+ * Team316RobotAutonomous.cpp - Autonomous mode functions
+ *
+ * Copyright (c) 2013 FIRST Team 316, LuNaTeCs. All rights reserved.
+ *
+ * Code for our 2013 Robot, Sure Shot SAM
+ * for the FRC game Ultimate Ascent 
+ *
+ ******************************************************************************/
 
 #include "Team316Robot.h"
-
-using namespace std;
+using std::cout;
+using std::endl;
 
 //
 // AutonomousInit()
@@ -20,50 +19,53 @@ using namespace std;
 //
 void Team316Robot::AutonomousInit()
 {
-	autoMode = (int) ds->GetAnalogIn(1);	// automode is predetermined by the analog sliders on the dashboard
-//	autoMode = (int) (ds->GetAnalogIn(1) + ds->GetAnalogIn(2));	// automode is predetermined by the analog sliders on the dashboard
-	cout << "Autonomous Init - mode is " << autoMode << " Selected" << endl;
+	// Set autoMode to the value of analog slider 1 on the DS
+	autoMode = (int) ds->GetAnalogIn(1);
+	cout << "[AutonomousInit] autoMode = " << autoMode << endl;
 
-	//these must be here and NOT be static so that we can restart autonomous without rebooting the robot
+	// these must be here and NOT be static so that we can restart autonomous without rebooting the robot
 	step = 1;
 	startTime = GetClock();
 	beginTime = GetClock();
-}//end of auto init
+}
 
-
-
-
-
-//***********************************************************
 //
 // AutonomousPeriodic()
 //
-//***********************************************************
+// Called aprox. every 20ms, reads the value of `autoMode`, then jumps to the
+// appropriate sub-routine
+//
 void Team316Robot::AutonomousPeriodic()
 {
-	switch (autoMode) {
-			//SHOOT 3 then stop
-		case 1: AutonomousMode1(); 	break;
-			//SHOOT 3 - PICKUP FRISBEES ON CENTER LINE AND SHOOT THEM - DRIVE BY DEAD RECKON
-		case 2:	AutonomousMode2();	break;
-			//SHOOT 3 - PICKUP FRISBEES ON CENTER LINE AND SHOOT THEM - DRIVE BY ENCODERS
-		case 3: AutonomousMode3();	break;
-			//TESTING ONLY - timing of raising and lowering shooter
-		case 4: AutonomousMode4();	break;
-			//TESTING ONLY - experimentation with encoders
-		case 5: AutonomousMode5();	break;
+	switch (autoMode)
+	{
+		case 1: 
+			AutonomousMode1(); // Fire 3 shots then stop
+			break;
+		case 2:
+			AutonomousMode2();	// Shoot 3, pickup & fire frisbees from center line - Dead reckoning
+			break;
+		case 3:
+			AutonomousMode3();	// Shoot 3, pickup & fire frisbees from center line - Encoders
+			break;
+		case 4:
+			AutonomousMode4();	// TEST - timing of raising and lowering shooter
+			break;
+		case 5:
+			AutonomousMode5();	// TEST - experimentation with encoders
+			break;
 			//TESTING ONLY - experimentation with encoders and PIDs
-		case 6: AutonomousMode6();	break;
+		case 6:
+			AutonomousMode6();
+			break;
+		default:
 			// Do nothing
-		default:					break;
-	}//end of switch
+			break;
+	}
+
+	// Send data to SmartDashboard for debugging
 	//UpdateSmartDashboard();
-}//end of function AutonomousPeriodic
-
-
-
-
-
+}
 
 //***********************************************************
 //
@@ -72,7 +74,7 @@ void Team316Robot::AutonomousPeriodic()
 //***********************************************************
 void Team316Robot::AutonomousMode1()
 {
-		switch (step)
+	switch (step)
 	{
 		case 1: // Turn the motor on and wait till we're up to speed
 			cout << "auto 1:1 -shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
