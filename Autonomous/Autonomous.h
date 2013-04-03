@@ -6,12 +6,17 @@
  * Code for our 2013 Robot, Sure Shot SAM
  * for the FRC game Ultimate Ascent
  *
- * In this mode, we shoot our 3 starting frisbees then stop.
+ * Contains code common to all of the autonomous routines
  *
  ******************************************************************************/
+
+#ifndef AUTONOMOUS_H_
+#define AUTONOMOUS_H_
 
 #define CURRENT_TIME GetClock() - startTime
 
 #define ADVANCE_TO_NEXT_STEP \
     step++; \
     startTime = GetClock()
+
+#endif
