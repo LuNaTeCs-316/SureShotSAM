@@ -23,6 +23,8 @@
 #define TEAM316_ROBOT_H_
 
 #include "WPILib.h"
+using std::cout;
+using std::endl;
 
 #include "Classes/SpeedCounter.h"
 #include "Classes/Potentiometer.h"
