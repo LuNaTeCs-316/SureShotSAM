@@ -15,6 +15,8 @@
 
 void Team316Robot::AutonomousMode3()
 {
+	cout << "[Mode:3][Step:" << step <<"][SysTime:" << GetClock()
+	            << "ms][ElapsedTime:" << CURRENT_TIME << "ms] ";
     switch (step)
     {
         case 1: // Turn the motor on and wait till we're up to speed

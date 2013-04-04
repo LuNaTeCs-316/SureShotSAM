@@ -74,7 +74,7 @@ Team316Robot::Team316Robot()
 void Team316Robot::RobotInit()
 {
 	//
-	// Configure sensors
+	// Configure Percepion Enhancers
 	//
 	leftDriveEncoder->Start();
 	rightDriveEncoder->Start();

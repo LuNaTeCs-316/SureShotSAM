@@ -222,7 +222,8 @@ void Team316Robot::AutonomousMode2()
             frontRightDriveMotor->Set(0.0);
             rearRightDriveMotor->Set(0.0);
             
-            if ((GetClock() - startTime) > .15) {
+            if ((GetClock() - startTime) > .15)
+            {
                 step++;
                 startTime = GetClock();
             }
