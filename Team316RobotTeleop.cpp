@@ -245,7 +245,7 @@ void Team316Robot::TeleopPeriodic()
 	{
 		// Run the pickup in the forward direction
 		pickupBeltRelay->Set(Relay::kForward);
-		pickupMotor->Set(fabs(operatorJoystick->GetZ());
+		pickupMotor->Set(fabs(operatorJoystick->GetZ()));
 	}
 	else if (operatorJoystick->GetRawButton(PICKUP_REVERSE_BUTTON))
 	{

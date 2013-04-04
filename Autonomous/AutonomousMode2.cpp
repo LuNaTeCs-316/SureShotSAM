@@ -10,7 +10,7 @@
  *
  ******************************************************************************/
 
-#include "Team316Robot.h"
+#include "../Team316Robot.h"
 #include "Autonomous.h"
 
 void Team316Robot::AutonomousMode2()
@@ -106,7 +106,7 @@ void Team316Robot::AutonomousMode2()
             // Retract the firing piston
             shooterPistonSolenoid->Set(false);
             
-            if ((shooterSpeedCounter->PIDGet() > 3800)) || ((GetClock() - startTime) > 1.5) )
+            if ((shooterSpeedCounter->PIDGet() > 3800) || ((GetClock() - startTime) > 1.5) )
             {
                 step++;
                 startTime = GetClock();
@@ -341,7 +341,7 @@ void Team316Robot::AutonomousMode2()
             pickupAngleMotor->Set(1.0);
 
             // Redundant code is still redundant; set values for angle and
-            // speed of shooters one last time... just to be sure :\
+            // speed of shooters one last time... just to be sure :/
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
             shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);

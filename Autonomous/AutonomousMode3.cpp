@@ -10,109 +10,105 @@
  *
  ******************************************************************************/
 
-#include "Team316Robot.h"
+#include "../Team316Robot.h"
 #include "Autonomous.h"
 
-//***********************************************************
-//
-// AUTONOMOUS MODE 3 -
-//
-//***********************************************************
 void Team316Robot::AutonomousMode3()
 {
-    switch (step) {
-    case 1: // Turn the motor on and wait till we're up to speed
-        cout << "auto 3:1 -shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
+    switch (step)
+    {
+        case 1: // Turn the motor on and wait till we're up to speed
+            cout << "auto 3:1 -shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
 
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
-        
-        if ( (shooterSpeedCounter->PIDGet() > 3800)
-            || ((GetClock() - startTime) > 2.9) ) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
+            
+            if ( (shooterSpeedCounter->PIDGet() > 3800)
+                || ((GetClock() - startTime) > 2.9) ) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
 
-    case 2: // Fire the first shot
-        cout << "auto 3:2 - Fire the first shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
+        case 2: // Fire the first shot
+            cout << "auto 3:2 - Fire the first shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
 
-        shooterPistonSolenoid->Set(true);
-        
-        if ((GetClock() - startTime) > 0.05) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterPistonSolenoid->Set(true);
+            
+            if ((GetClock() - startTime) > 0.05) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
 
-    case 3: // Wait for the motor to come back up to speed
-        //we lose approximately 500rpm in the shot - it takes approx 500ms to recover that
-        cout << "auto 3:3 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT + .05);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
+        case 3: // Wait for the motor to come back up to speed
+            //we lose approximately 500rpm in the shot - it takes approx 500ms to recover that
+            cout << "auto 3:3 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT + .05);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
 
-        shooterPistonSolenoid->Set(false);
-        
-        if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
-            || ((GetClock() - startTime) > 0.8) ) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterPistonSolenoid->Set(false);
+            
+            if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+                || ((GetClock() - startTime) > 0.8) ) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
 
-    case 4: // Fire the second shot
-        cout << "auto 3:4 - Fire the second shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
+        case 4: // Fire the second shot
+            cout << "auto 3:4 - Fire the second shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
 
-        shooterPistonSolenoid->Set(true);           
-        
-        if ((GetClock() - startTime) > 0.05) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterPistonSolenoid->Set(true);           
+            
+            if ((GetClock() - startTime) > 0.05) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
 
-    case 5: // Wait for the motor to come back up to speed
-        cout << "auto 3:5 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
+        case 5: // Wait for the motor to come back up to speed
+            cout << "auto 3:5 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
 
-        shooterPistonSolenoid->Set(false);
-        
-        if (    ( (shooterSpeedCounter->PIDGet() > 3800) &&(GetClock() - startTime > 0.4) )
-            || ((GetClock() - startTime) > 0.8) ) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterPistonSolenoid->Set(false);
+            
+            if (    ( (shooterSpeedCounter->PIDGet() > 3800) &&(GetClock() - startTime > 0.4) )
+                || ((GetClock() - startTime) > 0.8) ) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
 
-    case 6: // Fire the third shot
-        cout << "auto 3:6 - Fire the third shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
-        shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-        shooterAngleController->Enable();
-        shooterSpeedController->SetSetpoint(4500);
-        shooterSpeedController->Enable();
+        case 6: // Fire the third shot
+            cout << "auto 3:6 - Fire the third shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            shooterAngleController->Enable();
+            shooterSpeedController->SetSetpoint(4500);
+            shooterSpeedController->Enable();
 
-        shooterPistonSolenoid->Set(true);
-        
-        if ((GetClock() - startTime) > 0.05) {
-            step++;
-            startTime = GetClock();
-        }
-        break;
+            shooterPistonSolenoid->Set(true);
+            
+            if ((GetClock() - startTime) > 0.05) {
+                step++;
+                startTime = GetClock();
+            }
+            break;
         
         case 7://pause so we do not disrupt the frisbee exiting the shooter
 //          cout << "auto 3:7 - Pause so we do not disrupt the exiting frisbee.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
