@@ -35,4 +35,7 @@
 #define PICKUP_LOWER_BUTTON		5
 #define PICKUP_RAISE_BUTTON		6
 
+//NEW
+#define TEST_BUTTON_A			1
+#define TEST_BUTTON_B			2
 #endif

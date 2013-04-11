@@ -72,7 +72,13 @@ private:
 	RobotDrive* 		driveMotors;
 	Encoder* 			leftDriveEncoder;
 	Encoder* 			rightDriveEncoder;
-	
+
+//NEW
+	PIDController* 		leftFDriveController;
+	PIDController* 		leftRDriveController;
+	PIDController* 		rightFDriveController;
+	PIDController* 		rightRDriveController;
+			
 	// Pickup
 	Relay* 				pickupBeltRelay;
 	SpeedController* 	pickupAngleMotor;

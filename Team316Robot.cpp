@@ -29,9 +29,16 @@ Team316Robot::Team316Robot()
 	rearRightDriveMotor = new Victor(REAR_RIGHT_DRIVE_MOTOR);
 	
 	driveMotors = new RobotDrive(frontLeftDriveMotor, frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
-	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k4X);
-	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k4X);
+	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k1X);
+	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k1X);
 
+//NEW
+	leftFDriveController = new PIDController(5.0, 0.0, 0.0, leftDriveEncoder, frontLeftDriveMotor);
+	leftRDriveController = new PIDController(5.0, 0.0, 0.0, leftDriveEncoder, frontRightDriveMotor);
+	rightFDriveController = new PIDController(5.0, 0.0, 0.0, rightDriveEncoder, rearLeftDriveMotor);
+	rightRDriveController = new PIDController(5.0, 0.0, 0.0, rightDriveEncoder, rearRightDriveMotor);
+
+	
 	// Pickup
 	pickupBeltRelay = new Relay(PICKUP_BELT_RELAY);
 	pickupAngleMotor = new Jaguar(PICKUP_ANGLE_MOTOR);
@@ -87,7 +94,7 @@ void Team316Robot::RobotInit()
 	//
 	// through experimentation we found out the values below
 	leftDriveEncoder->SetDistancePerPulse(0.01);
-	rightDriveEncoder->SetDistancePerPulse(0.035);
+	rightDriveEncoder->SetDistancePerPulse(0.01);
 
 	//
 	// Configure the drive motors

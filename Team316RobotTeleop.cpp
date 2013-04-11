@@ -195,7 +195,8 @@ void Team316Robot::TeleopPeriodic()
 	//SmartDashboard::PutNumber("LeftMotor", left);
 	//SmartDashboard::PutNumber("RightMotor", right);
 	// Print the left and right values to standard output for debugging
-	std::cout << "LeftMotor: " << left << ", RightMotor: " << right;
+//NEW
+	//	std::cout << "LeftMotor: " << left << ", RightMotor: " << right;
 
 	//
 	// 5. Set the speed of the motors
@@ -367,4 +368,24 @@ void Team316Robot::TeleopPeriodic()
 
 	// Output newline characters to end debugging line
 	std::cout << "\n\n";
-}
+
+
+/**************************************************************************
+ * Test
+ **************************************************************************/
+//NEW
+	if (driverController->GetRawButton(TEST_BUTTON_B))
+		{
+        leftDriveEncoder->Reset();
+        rightDriveEncoder->Reset();
+        cout << "reset encoders. left= "<< (leftDriveEncoder->Get())<<" right= "<< (rightDriveEncoder->Get())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
+		}
+	
+	
+	if (driverController->GetRawButton(TEST_BUTTON_A))
+		{
+		cout << "Test encoders. left= "<< (leftDriveEncoder->Get())<<" right= "<< (rightDriveEncoder->Get())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
+		}
+	
+} //end oof function
+	
