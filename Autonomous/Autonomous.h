@@ -13,7 +13,7 @@
 #ifndef AUTONOMOUS_H_
 #define AUTONOMOUS_H_
 
-#define CURRENT_TIME GetClock() - startTime
+#define STEP_TIME GetClock() - startTime
 
 #define ADVANCE_TO_NEXT_STEP \
     step++; \

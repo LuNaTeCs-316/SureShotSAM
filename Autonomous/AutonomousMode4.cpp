@@ -20,11 +20,13 @@ void Team316Robot::AutonomousMode4()
     shooterSpeedController->Disable();
 
     cout << "[Mode:4][Step:" << step <<"][SysTime:" << GetClock()
-            << "ms][ElapsedTime:" << CURRENT_TIME << "ms] ";
+            << "ms][ElapsedTime:" << STEP_TIME << "ms] ";
 
     switch (step)
     {
         case 1: // this mode proved out that it takes exactly 4 second to lower the shooter
+        		//with theold screw
+        		//with new screw it was 1.2 seconds
             cout << "lower shooter: actual = " << (shooterAnglePot->GetAverageVoltage()) << endl;
             
             shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);

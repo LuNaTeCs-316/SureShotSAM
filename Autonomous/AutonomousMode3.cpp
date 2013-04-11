@@ -15,12 +15,11 @@
 
 void Team316Robot::AutonomousMode3()
 {
-	cout << "[Mode:3][Step:" << step <<"][SysTime:" << GetClock()
-	            << "ms][ElapsedTime:" << CURRENT_TIME << "ms] ";
+	cout << "[Mode:3][Step:" << step <<"][ time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime);
     switch (step)
     {
         case 1: // Turn the motor on and wait till we're up to speed
-            cout << "auto 3:1 -shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
+            cout << "shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
 
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
             shooterAngleController->Enable();
@@ -35,7 +34,7 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 2: // Fire the first shot
-            cout << "auto 3:2 - Fire the first shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            cout << "Fire the first shot"<< endl;
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
             shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
@@ -51,7 +50,7 @@ void Team316Robot::AutonomousMode3()
 
         case 3: // Wait for the motor to come back up to speed
             //we lose approximately 500rpm in the shot - it takes approx 500ms to recover that
-            cout << "auto 3:3 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT + .05);
             shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
@@ -67,7 +66,7 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 4: // Fire the second shot
-            cout << "auto 3:4 - Fire the second shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            cout << "Fire the second shot" << endl;
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
             shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
@@ -82,7 +81,7 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 5: // Wait for the motor to come back up to speed
-            cout << "auto 3:5 - shooter speed = " << (shooterSpeedCounter->GetRPM() )<<" Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+            cout << "shooter speed = " << shooterSpeedCounter->GetRPM()<< endl;
             shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
             shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
@@ -144,7 +143,7 @@ void Team316Robot::AutonomousMode3()
 
             pickupAngleMotor->Set(-1.0);
 
-            if ( (GetClock() - startTime > 2.5)
+            if ( (GetClock() - startTime > 1.5)
                 || ( shooterAnglePot->GetAverageVoltage() <= (SHOOTER_LOWEST_HEIGHT + .05) ) ) {
                 step++;
                 startTime = GetClock();
@@ -153,29 +152,26 @@ void Team316Robot::AutonomousMode3()
 
         case 10: //here we are making sure the encoders are reset before we use them
 //          cout << "auto 3:10 before reset. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-
             leftDriveEncoder->Reset();
             rightDriveEncoder->Reset();
-
 //          cout << "auto 3:10 after reset. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-
             step++;
             startTime = GetClock();
         break;
 
         case 11: // Drive backwards to pickup the frisbees using encoders
-            cout << "auto 3:11-Drive back. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
+            cout << "auto 3:11-Drive back. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<endl;
 
             pickupAngleMotor->Set(-1.0);
             pickupMotor->Set(-0.9);
 
 
             //since our distance Per Pulse is .01 then a value of 50 equates to 5000 pulses
-            if (leftDriveEncoder->GetDistance() <= 14.0) {
-                frontLeftDriveMotor->Set(-0.9);
-                rearLeftDriveMotor->Set(-0.9);
-                frontRightDriveMotor->Set(0.9);
-                rearRightDriveMotor->Set(0.9);
+            if (leftDriveEncoder->GetDistance() <= 9.3) {
+                frontLeftDriveMotor->Set(-0.4);
+                rearLeftDriveMotor->Set(-0.4);
+                frontRightDriveMotor->Set(0.4);
+                rearRightDriveMotor->Set(0.4);
             } else {
                 frontLeftDriveMotor->Set(0.0);
                 rearLeftDriveMotor->Set(0.0);
@@ -203,7 +199,7 @@ void Team316Robot::AutonomousMode3()
                 rearRightDriveMotor->Set(0.0);
             }//end of right side
 */
-            if ( ((leftDriveEncoder->GetDistance() >= 13.9) 
+            if ( ((leftDriveEncoder->GetDistance() >= 9.0) 
                     //&& (rightDriveEncoder->GetDistance() >= 13.9)
                     )
                     || ((GetClock() - startTime) > 2.0) ){
@@ -213,7 +209,6 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 12: // Stop the drive motors and wait
-//          cout << "auto 3:12 - Pause.  left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
             pickupMotor->Set(-0.9);
             pickupAngleMotor->Set(0.0); //this is necessary to prevent lockup
             
@@ -225,26 +220,21 @@ void Team316Robot::AutonomousMode3()
             frontRightDriveMotor->Set(0.0);
             rearRightDriveMotor->Set(0.0);
             
-            if ((GetClock() - startTime) > .05) {
+            if ((GetClock() - startTime) > .5) {
                 step++;
                 startTime = GetClock();
             }
             break;
 
         case 13: //reset encoders - this is probably unnnecessary
-//          cout << "auto 3:13 before reset. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-
             leftDriveEncoder->Reset();
             rightDriveEncoder->Reset();
-
-//          cout << "auto 5:1 after reset. left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-
             step++;
             startTime = GetClock();
         break;
 
         case 14: // Drive forwards to the goal
-            cout << "auto 3:14 - Drive forward.  left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
+            cout << "Drive forward.  left= "<< (leftDriveEncoder->GetDistance())<<" right= "<< (rightDriveEncoder->GetDistance())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
 
             pickupMotor->Set(-0.9);
             pickupAngleMotor->Set(.8); //raise arm
@@ -253,11 +243,11 @@ void Team316Robot::AutonomousMode3()
             shooterAngleController->Enable();
             
 
-            if (leftDriveEncoder->GetDistance() >= -8.0) {
-                frontLeftDriveMotor->Set(0.65);
-                rearLeftDriveMotor->Set(0.65);
-                frontRightDriveMotor->Set(-0.35);
-                rearRightDriveMotor->Set(-0.35);
+            if (leftDriveEncoder->GetDistance() >= -6.2) {
+                frontLeftDriveMotor->Set(0.5);
+                rearLeftDriveMotor->Set(0.5);
+                frontRightDriveMotor->Set(-0.3);
+                rearRightDriveMotor->Set(-0.3);
             } else {
                 frontLeftDriveMotor->Set(0.0);
                 rearLeftDriveMotor->Set(0.0);
@@ -285,7 +275,7 @@ void Team316Robot::AutonomousMode3()
                 rearRightDriveMotor->Set(0.0);
             }//end of right side
     */      
-            if ( ((leftDriveEncoder->GetDistance() <= -7.9) 
+            if ( ((leftDriveEncoder->GetDistance() <= -6.0) 
                     //&& (rightDriveEncoder->GetDistance() <= -12.9)
                     )
                     || ((GetClock() - startTime) > 3.0) ){
@@ -295,7 +285,7 @@ void Team316Robot::AutonomousMode3()
             break;
             
         case 15: // Stop the drive motors and wait till we're in position to fire
-            cout << "auto 3:15 - shooter angle = " << (shooterAnglePot->GetAverageVoltage()) << ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
+            cout << "shooter angle = " <<shooterAnglePot->GetAverageVoltage()<<endl;
 
             pickupMotor->Set(-0.9);
             pickupAngleMotor->Set(1.0);
@@ -312,7 +302,7 @@ void Team316Robot::AutonomousMode3()
             shooterSpeedController->Enable();
             
                 if (shooterAnglePot->GetAverageVoltage() >= (SHOOTER_TOP_HEIGHT - .05)
-                    || (GetClock() - startTime) > 3.2){
+                    || (GetClock() - startTime) > 1.2){
                 step++;
                 startTime = GetClock();
             }

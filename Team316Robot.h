@@ -30,6 +30,7 @@ using std::endl;
 #include "Classes/Potentiometer.h"
 #include "RobotMap.h"
 #include "ControllerMap.h"
+#include "Classes/Encoder_sub.h"
 
 class Team316Robot : public IterativeRobot
 {
@@ -41,17 +42,18 @@ private:
 	// Shooter setpoints
 
 	// Value for highest target
-	const static float SHOOTER_TOP_HEIGHT = 3.7;		// for in competition
+	const static float SHOOTER_TOP_HEIGHT = 3.37;		// for MAR
+//	const static float SHOOTER_TOP_HEIGHT = 3.7;		// for lenape
 	//const static float SHOOTER_TOP_HEIGHT = 3.75;		// for practice; no lip at pyramid
 
 	// Value for lower target
-	const static float SHOOTER_MID_HEIGHT = 3.49;
+	const static float SHOOTER_MID_HEIGHT = 3.3;
 	
 	// Absolute bottom value
-	const static float SHOOTER_LOWEST_HEIGHT = 2.25;
+	const static float SHOOTER_LOWEST_HEIGHT = 1.5;
 	
 	// Value for loading
-	const static float SHOOTER_TEST_LOAD_HEIGHT = 2.5;
+	const static float SHOOTER_TEST_LOAD_HEIGHT = 1.5;
 
 	//
 	// Declare member variables for the operator interface components
@@ -70,10 +72,14 @@ private:
 	SpeedController*	rearLeftDriveMotor;
 	SpeedController*	rearRightDriveMotor;
 	RobotDrive* 		driveMotors;
-	Encoder* 			leftDriveEncoder;
-	Encoder* 			rightDriveEncoder;
+//	Encoder* 			leftDriveEncoder;
+//	Encoder* 			rightDriveEncoder;
 
 //NEW
+	Encoder_sub* 		leftDriveEncoder;
+	Encoder_sub* 		rightDriveEncoder;
+
+	
 	PIDController* 		leftFDriveController;
 	PIDController* 		leftRDriveController;
 	PIDController* 		rightFDriveController;

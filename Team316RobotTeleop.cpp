@@ -196,7 +196,7 @@ void Team316Robot::TeleopPeriodic()
 	//SmartDashboard::PutNumber("RightMotor", right);
 	// Print the left and right values to standard output for debugging
 //NEW
-	//	std::cout << "LeftMotor: " << left << ", RightMotor: " << right;
+	//std::cout << "LeftMotor: " << left << ", RightMotor: " << right;
 
 	//
 	// 5. Set the speed of the motors
@@ -300,6 +300,7 @@ void Team316Robot::TeleopPeriodic()
 		// Set the shooter angle motor's speed
 		shooterAngleMotor->Set(shooterAngleMotorSpeed);
 	}
+//	std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
 
 	//
 	// Firing Motor Control
@@ -367,7 +368,7 @@ void Team316Robot::TeleopPeriodic()
 	//UpdateSmartDashboard();
 
 	// Output newline characters to end debugging line
-	std::cout << "\n\n";
+	//std::cout << "\n\n";
 
 
 /**************************************************************************

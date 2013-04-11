@@ -29,10 +29,15 @@ Team316Robot::Team316Robot()
 	rearRightDriveMotor = new Victor(REAR_RIGHT_DRIVE_MOTOR);
 	
 	driveMotors = new RobotDrive(frontLeftDriveMotor, frontRightDriveMotor, rearLeftDriveMotor, rearRightDriveMotor);
-	leftDriveEncoder = new Encoder(LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k1X);
-	rightDriveEncoder = new Encoder(RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k1X);
-
+	leftDriveEncoder = new Encoder_sub (LEFT_DRIVE_ENCODER_A, LEFT_DRIVE_ENCODER_B, false, Encoder::k1X);
+	rightDriveEncoder = new Encoder_sub (RIGHT_DRIVE_ENCODER_A, RIGHT_DRIVE_ENCODER_B, false, Encoder::k1X);
+	
 //NEW
+	//encoder yeild 360 ticks per full rotation
+	//our wheels are 6 inches or 6*pi = 18.84 inches
+	//then 360 ticks = 18.84 inches or 237 ticks per foot
+	
+	//256/18.84= 13.58 or 163 per foot
 	leftFDriveController = new PIDController(5.0, 0.0, 0.0, leftDriveEncoder, frontLeftDriveMotor);
 	leftRDriveController = new PIDController(5.0, 0.0, 0.0, leftDriveEncoder, frontRightDriveMotor);
 	rightFDriveController = new PIDController(5.0, 0.0, 0.0, rightDriveEncoder, rearLeftDriveMotor);
