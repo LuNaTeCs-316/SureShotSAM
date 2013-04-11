@@ -326,9 +326,10 @@ void Team316Robot::TeleopPeriodic()
 		else
 		shooterIndicatorSolenoid->Set(false);
 
-	
-	std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
-
+//NEW	
+	if (driverController->GetRawButton(TEST_BUTTON_A)) {
+		std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
+		}
 	//
 	// Firing Motor Control
 	//
