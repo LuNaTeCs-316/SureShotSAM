@@ -59,6 +59,7 @@ Team316Robot::Team316Robot()
 	shooterAnglePot = new Potentiometer(SHOOTER_ANGLE_POT);
 	shooterAngleController = new PIDController(22.5, 0.0, 0.0, shooterAnglePot, shooterAngleMotor);
 	shooterPistonSolenoid = new Solenoid(SHOOTER_PISTON_SOLENOID);
+	shooterIndicatorSolenoid = new Solenoid(8);
 
 	// Climbing
 	climbingSolenoid = new Solenoid(CLIMBING_SOLENOID);

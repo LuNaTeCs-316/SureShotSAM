@@ -228,7 +228,7 @@ void Team316Robot::AutonomousMode3()
 
         case 13: //reset encoders - this is probably unnnecessary
             leftDriveEncoder->Reset();
-            rightDriveEncoder->Reset();
+            rightDriveEncoder->Reset();	
             step++;
             startTime = GetClock();
         break;

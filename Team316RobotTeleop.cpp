@@ -15,7 +15,7 @@
 //
 // Custom arcade drive parameters
 //
-double throttleGain = 1.0;
+double throttleGain = 0.25;
 double turnGain = 1.0;
 double deadband = 0.2;
 double turnBoostGain = 0.5;
@@ -279,7 +279,11 @@ void Team316Robot::TeleopPeriodic()
 		shooterAngleController->SetSetpoint(SHOOTER_MID_HEIGHT);
 		shooterAngleController->Enable();
 	}
-	else if(operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON))
+	else if(operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON)
+			||
+			operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON1)
+			||
+			operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON2))
 	{
 		// Pickup position
 		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
@@ -298,9 +302,21 @@ void Team316Robot::TeleopPeriodic()
 			shooterAngleMotorSpeed = 0;
 		
 		// Set the shooter angle motor's speed
-		shooterAngleMotor->Set(shooterAngleMotorSpeed);
+		if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_LOWEST_HEIGHT - .05
+				&& shooterAngleMotorSpeed < 0)
+			shooterAngleMotor->Set(shooterAngleMotorSpeed);
+		else if (shooterAngleMotorSpeed > 0)
+			shooterAngleMotor->Set(shooterAngleMotorSpeed);
+
 	}
-//	std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
+	
+	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
+		shooterIndicatorSolenoid->Set(true);
+	else
+		shooterIndicatorSolenoid->Set(false);
+
+	
+	std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
 
 	//
 	// Firing Motor Control

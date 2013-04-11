@@ -100,6 +100,7 @@ private:
 	Potentiometer* 		shooterAnglePot;
 	PIDController* 		shooterAngleController;
 	Solenoid*			shooterPistonSolenoid;
+	Solenoid*			shooterIndicatorSolenoid;
 
 	// Vertical Ascent Initiator
 	Solenoid* climbingSolenoid;
