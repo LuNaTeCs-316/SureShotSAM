@@ -20,7 +20,7 @@ double turnGain = 1.0;
 double deadband = 0.2;
 double turnBoostGain = 0.5;
 double skimGain = 0.5;
-
+int shooter_light = 0;
 //
 // skim(v, gain)
 //
@@ -313,6 +313,17 @@ void Team316Robot::TeleopPeriodic()
 	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
 		shooterIndicatorSolenoid->Set(true);
 	else
+		if (shooterAnglePot->GetAverageVoltage() <= SHOOTER_LOWEST_HEIGHT + .05) {
+			shooter_light++;
+			
+			if (shooter_light % 20 == 0){ //flash light nce every 400ms
+				shooterIndicatorSolenoid->Set(true);
+			}
+			else{
+				shooterIndicatorSolenoid->Set(false);
+			}
+		}	
+		else
 		shooterIndicatorSolenoid->Set(false);
 
 	

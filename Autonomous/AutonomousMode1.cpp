@@ -15,8 +15,7 @@
 
 void Team316Robot::AutonomousMode1()
 {
-    cout << "[Mode:1][Step:" << step <<"][SysTime:" << GetClock()
-            << "ms][ElapsedTime:" << CURRENT_TIME << "ms] ";
+	cout << "[Mode:1][Step:" << step <<"][ time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime);
     switch (step)
     {
         case 1: // Turn the motor on and wait till we're up to speed
@@ -34,7 +33,7 @@ void Team316Robot::AutonomousMode1()
             shooterPistonSolenoid->Set(false);
             
             // during testing this only achieves about 3600 rpm by 2.5 seconds
-            if ( (shooterSpeedCounter->PIDGet() > 3800) || ((CURRENT_TIME) > 3) )
+            if ( (shooterSpeedCounter->PIDGet() > 3800) || ((STEP_TIME) > 3) )
             {
                 step++;
                 startTime = GetClock();
@@ -54,7 +53,7 @@ void Team316Robot::AutonomousMode1()
             // Fire the frisbee
             shooterPistonSolenoid->Set(true);
             
-            if ((CURRENT_TIME) > 0.05)
+            if ((STEP_TIME) > 0.05)
             {
                 step++;
                 startTime = GetClock();
@@ -74,7 +73,7 @@ void Team316Robot::AutonomousMode1()
             shooterPistonSolenoid->Set(false);
             
             // we lose approximately 500rpm in the shot - it takes approx 500ms to recover that
-            if ((shooterSpeedCounter->PIDGet() > 3800) || ((CURRENT_TIME) > 2.0))
+            if ((shooterSpeedCounter->PIDGet() > 3800 && STEP_TIME > 1.0) || STEP_TIME > 2.0)
             {
                 step++;
                 startTime = GetClock();
@@ -93,7 +92,7 @@ void Team316Robot::AutonomousMode1()
             // fire the next shot
             shooterPistonSolenoid->Set(true);           
             
-            if ((CURRENT_TIME) > 0.05)
+            if ((STEP_TIME) > 0.05)
             {
                 step++;
                 startTime = GetClock();
@@ -112,7 +111,7 @@ void Team316Robot::AutonomousMode1()
             // Retract the firing piston
             shooterPistonSolenoid->Set(false);
             
-            if ( (shooterSpeedCounter->PIDGet() > 3800) || ((CURRENT_TIME) > 2.0) )
+            if ((shooterSpeedCounter->PIDGet() > 3800 && STEP_TIME > 1.0) || STEP_TIME > 2.0)
             {
                 step++;
                 startTime = GetClock();
@@ -131,7 +130,7 @@ void Team316Robot::AutonomousMode1()
             // Fire the frisbee
             shooterPistonSolenoid->Set(true);
             
-            if (CURRENT_TIME > 0.05)
+            if (STEP_TIME > 0.05)
             {
                 step++;
                 startTime = GetClock();

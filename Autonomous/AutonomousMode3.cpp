@@ -301,8 +301,10 @@ void Team316Robot::AutonomousMode3()
             shooterSpeedController->SetSetpoint(3800);
             shooterSpeedController->Enable();
             
-                if (shooterAnglePot->GetAverageVoltage() >= (SHOOTER_TOP_HEIGHT - .05)
-                    || (GetClock() - startTime) > 1.2){
+                if ( (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05 
+                		&& 
+                		GetClock() - startTime > 1.0 )
+                    || GetClock() - startTime > 2.0  ){
                 step++;
                 startTime = GetClock();
             }
@@ -339,8 +341,8 @@ void Team316Robot::AutonomousMode3()
 
             shooterPistonSolenoid->Set(false);
             
-            if ( (shooterSpeedCounter->PIDGet() > 3800)
-                || ((GetClock() - startTime) > 0.3) ) {
+            if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+                || ((GetClock() - startTime) > 0.8) ) {
                 step++;
                 startTime = GetClock();
             }
