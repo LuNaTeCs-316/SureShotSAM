@@ -310,26 +310,7 @@ void Team316Robot::TeleopPeriodic()
 
 	}
 	
-	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
-		shooterIndicatorSolenoid->Set(true);
-	else
-		if (shooterAnglePot->GetAverageVoltage() <= SHOOTER_LOWEST_HEIGHT + .05) {
-			shooter_light++;
-			
-			if (shooter_light % 20 == 0){ //flash light nce every 400ms
-				shooterIndicatorSolenoid->Set(true);
-			}
-			else{
-				shooterIndicatorSolenoid->Set(false);
-			}
-		}	
-		else
-		shooterIndicatorSolenoid->Set(false);
-
-//NEW	
-	if (driverController->GetRawButton(TEST_BUTTON_A)) {
-		std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
-		}
+	
 	//
 	// Firing Motor Control
 	//
@@ -358,6 +339,26 @@ void Team316Robot::TeleopPeriodic()
 	else
 		shooterPistonSolenoid->Set(false);
 	
+	/**************************************************************************
+	 * indictor lights
+	 **************************************************************************/
+		if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05
+				&&
+				shooterSpeedCounter->GetRPM() > 3550 ) {
+			shooter_light++;
+			
+			if (shooter_light % 20 == 0){ //flash light once every 400ms
+				shooterIndicatorSolenoid->Set(true);
+			}
+			else{
+				shooterIndicatorSolenoid->Set(false);
+			}
+		}	
+		else if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
+			shooterIndicatorSolenoid->Set(true); //on solid
+		else 
+		shooterIndicatorSolenoid->Set(false); //off
+
 	/**************************************************************************
 	 * Climbing
 	 **************************************************************************/
@@ -414,7 +415,8 @@ void Team316Robot::TeleopPeriodic()
 	if (driverController->GetRawButton(TEST_BUTTON_A))
 		{
 		cout << "Test encoders. left= "<< (leftDriveEncoder->Get())<<" right= "<< (rightDriveEncoder->Get())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-		}
-	
-} //end oof function
+		std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
+		std::cout << "shooterspeed: " << shooterSpeedCounter->GetRPM() << std::endl;
+			}
+} //end of function
 	
