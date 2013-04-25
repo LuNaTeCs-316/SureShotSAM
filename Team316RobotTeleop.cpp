@@ -194,9 +194,9 @@ void Team316Robot::TeleopPeriodic()
 	// Send data to SmartDashboard for debugging
 	//SmartDashboard::PutNumber("LeftMotor", left);
 	//SmartDashboard::PutNumber("RightMotor", right);
+	
 	// Print the left and right values to standard output for debugging
-//NEW
-	//std::cout << "LeftMotor: " << left << ", RightMotor: " << right;
+	cout << "LeftMotor: " << left << ", RightMotor: " << right;
 
 	//
 	// 5. Set the speed of the motors
@@ -280,10 +280,8 @@ void Team316Robot::TeleopPeriodic()
 		shooterAngleController->Enable();
 	}
 	else if(operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON)
-			||
-			operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON1)
-			||
-			operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON2))
+			|| operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON1)
+			|| operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON2))
 	{
 		// Pickup position
 		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
@@ -308,8 +306,9 @@ void Team316Robot::TeleopPeriodic()
 		else if (shooterAngleMotorSpeed > 0)
 			shooterAngleMotor->Set(shooterAngleMotorSpeed);
 
+		// Uncomment for debugging
+		cout << "shooterAnglePot: " << shooterAnglePot->GetAverageVoltage() << ", ";
 	}
-	
 	
 	//
 	// Firing Motor Control
@@ -317,8 +316,9 @@ void Team316Robot::TeleopPeriodic()
 	if (operatorJoystick->GetRawButton(SHOOTER_MOTOR_BUTTON))
 	{
 		// Enable the motor under speed control
-		shooterSpeedController->SetSetpoint(3750.0);
+		shooterSpeedController->SetSetpoint(3937.5);
 		shooterSpeedController->Enable();
+		cout << "shooterMotorSpeed: " << shooterSpeedCounter->PIDGet() << ", ";
 	}
 	else if (operatorJoystick->GetRawButton(5))
 	{
@@ -331,6 +331,7 @@ void Team316Robot::TeleopPeriodic()
 		shooterSpeedController->Disable();
 	}
 	
+	
 	//
 	// Firing Piston Control
 	//
@@ -339,25 +340,28 @@ void Team316Robot::TeleopPeriodic()
 	else
 		shooterPistonSolenoid->Set(false);
 	
-	/**************************************************************************
-	 * indictor lights
-	 **************************************************************************/
-		if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05
-				&&
-				shooterSpeedCounter->GetRPM() > 3550 ) {
-			shooter_light++;
-			
-			if (shooter_light % 20 == 0){ //flash light once every 400ms
-				shooterIndicatorSolenoid->Set(true);
-			}
-			else{
-				shooterIndicatorSolenoid->Set(false);
-			}
-		}	
-		else if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
-			shooterIndicatorSolenoid->Set(true); //on solid
-		else 
-		shooterIndicatorSolenoid->Set(false); //off
+	//
+	// Indictor lights
+	//
+	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05
+			&& shooterSpeedCounter->GetRPM() > 3550 )
+	{
+		shooter_light++;
+		
+		if (shooter_light % 20 == 0)
+		{ 
+			// Flash light once every 400ms
+			shooterIndicatorSolenoid->Set(true);
+		}
+		else
+		{
+			shooterIndicatorSolenoid->Set(false);
+		}
+	}	
+	else if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05)
+		shooterIndicatorSolenoid->Set(true); // on solid
+	else 
+	shooterIndicatorSolenoid->Set(false); // off
 
 	/**************************************************************************
 	 * Climbing
@@ -397,7 +401,7 @@ void Team316Robot::TeleopPeriodic()
 	//UpdateSmartDashboard();
 
 	// Output newline characters to end debugging line
-	//std::cout << "\n\n";
+	std::cout << "\n";
 
 
 /**************************************************************************

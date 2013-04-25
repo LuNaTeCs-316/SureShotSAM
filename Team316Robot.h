@@ -42,8 +42,9 @@ private:
 	// Shooter setpoints
 
 	// Value for highest target
-	const static float SHOOTER_TOP_HEIGHT = 3.37;		// for MAR
-//	const static float SHOOTER_TOP_HEIGHT = 3.7;		// for lenape
+	const static float SHOOTER_TOP_HEIGHT = 3.495;		// Archimedes
+	//const static float SHOOTER_TOP_HEIGHT = 3.37;		// for MAR
+	//const static float SHOOTER_TOP_HEIGHT = 3.7;		// for lenape
 	//const static float SHOOTER_TOP_HEIGHT = 3.75;		// for practice; no lip at pyramid
 
 	// Value for lower target

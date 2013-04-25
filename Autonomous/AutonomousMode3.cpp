@@ -231,13 +231,13 @@ void Team316Robot::AutonomousMode3()
             rightDriveEncoder->Reset();	
             step++;
             startTime = GetClock();
-        break;
+            break;
 
         case 14: // Drive forwards to the goal
             cout << "Drive forward, left= "<<leftDriveEncoder->GetDistance()<<", right= "<< rightDriveEncoder->GetDistance()<<endl;
 
             pickupMotor->Set(-0.9);
-            pickupAngleMotor->Set(.8); //raise arm
+            //pickupAngleMotor->Set(.8); //raise arm
                     
 //            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
 //            shooterAngleController->Enable();
@@ -265,7 +265,7 @@ void Team316Robot::AutonomousMode3()
         case 15: // Stop the drive motors and wait till we're in position to fire
             cout << "shooter angle = " <<shooterAnglePot->GetAverageVoltage()<<endl;
 
-            pickupMotor->Set(-0.9);
+            pickupMotor->Set(0.0);
             pickupAngleMotor->Set(1.0);
 
             frontLeftDriveMotor->Set(0.0);
