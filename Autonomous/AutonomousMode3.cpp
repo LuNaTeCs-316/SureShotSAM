@@ -16,15 +16,16 @@
 void Team316Robot::AutonomousMode3()
 {
 	if (step >= 11 && step <= 16 )
-	cout << "auto3:" << step <<", Step time= "<< (GetClock() - startTime)<< ", Tot Time= " << (GetClock() - beginTime)<< ", " ;
+		cout << "auto3:" << step <<", Step time= "<< (GetClock() - startTime)<< ", Tot Time= " << (GetClock() - beginTime)<< ", " ;
 
 	switch (step)
     {
         case 1: // Turn the motor on and wait till we're up to speed
-//            cout << "shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
+        	//cout << "shooter speed = " << (shooterSpeedCounter->GetRPM() )<< ".  time = "<< (GetClock() - startTime)<< "Tot Time: " << (GetClock() - beginTime) <<endl;
 
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-            shooterAngleController->Enable();
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            //shooterAngleController->Enable();
+        	shooterAngleController->Disable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
             
@@ -36,15 +37,16 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 2: // Fire the first shot
- //           cout << "Fire the first shot"<< endl;
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-            shooterAngleController->Enable();
+        	//cout << "Fire the first shot"<< endl;
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            //shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
 
             shooterPistonSolenoid->Set(true);
             
-            if ((GetClock() - startTime) > 0.05) {
+            if ((GetClock() - startTime) > 0.2)
+            {
                 step++;
                 startTime = GetClock();
             }
@@ -52,9 +54,9 @@ void Team316Robot::AutonomousMode3()
 
         case 3: // Wait for the motor to come back up to speed
             //we lose approximately 500rpm in the shot - it takes approx 500ms to recover that
- //           cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT + .05);
-            shooterAngleController->Enable();
+        	//cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT + .05);
+            //shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
 
@@ -68,15 +70,15 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 4: // Fire the second shot
-//            cout << "Fire the second shot" << endl;
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-            shooterAngleController->Enable();
+        	//cout << "Fire the second shot" << endl;
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            //shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
 
             shooterPistonSolenoid->Set(true);           
             
-            if ((GetClock() - startTime) > 0.05) {
+            if ((GetClock() - startTime) > 0.2) {
                 step++;
                 startTime = GetClock();
             }
@@ -84,8 +86,8 @@ void Team316Robot::AutonomousMode3()
 
         case 5: // Wait for the motor to come back up to speed
  //           cout << "shooter speed = " << shooterSpeedCounter->GetRPM()<< endl;
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-            shooterAngleController->Enable();
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            //shooterAngleController->Enable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
 
@@ -107,7 +109,7 @@ void Team316Robot::AutonomousMode3()
 
             shooterPistonSolenoid->Set(true);
             
-            if ((GetClock() - startTime) > 0.05) {
+            if ((GetClock() - startTime) > 0.2) {
                 step++;
                 startTime = GetClock();
             }
@@ -168,7 +170,7 @@ void Team316Robot::AutonomousMode3()
             cout << "Drive back, left= "<< (leftDriveEncoder->GetDistance())<<", right= "<< (rightDriveEncoder->GetDistance())<<endl;
 
             pickupAngleMotor->Set(-1.0);
-            pickupMotor->Set(-0.9);
+            pickupMotor->Set(-1.0);
 
             if (leftDriveEncoder->GetDistance() <= 9.3) {
                 frontLeftDriveMotor->Set(-0.4);
@@ -212,7 +214,7 @@ void Team316Robot::AutonomousMode3()
             break;
 
         case 12: // Stop the drive motors and wait
-            pickupMotor->Set(-0.9);
+            pickupMotor->Set(-1.0);
             pickupAngleMotor->Set(0.0); //this is necessary to prevent lockup
             
             frontLeftDriveMotor->Set(0.0);
@@ -236,7 +238,7 @@ void Team316Robot::AutonomousMode3()
         case 14: // Drive forwards to the goal
             cout << "Drive forward, left= "<<leftDriveEncoder->GetDistance()<<", right= "<< rightDriveEncoder->GetDistance()<<endl;
 
-            pickupMotor->Set(-0.9);
+            pickupMotor->Set(-1.0);
             //pickupAngleMotor->Set(.8); //raise arm
                     
 //            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
@@ -293,15 +295,16 @@ void Team316Robot::AutonomousMode3()
             pickupMotor->Set(0.0);
             pickupAngleMotor->Set(0.0);
 
-            shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
-            shooterAngleController->Enable();
+            //shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+            //shooterAngleController->Enable();
+            shooterAngleController->Disable();
             shooterSpeedController->SetSetpoint(4500);
             shooterSpeedController->Enable();
 
             shooterPistonSolenoid->Set(true);
 
             
-            if ((GetClock() - startTime) > 0.05) {
+            if ((GetClock() - startTime) > 0.2) {
                 step++;
                 startTime = GetClock();
             }
@@ -338,13 +341,200 @@ void Team316Robot::AutonomousMode3()
 
             shooterPistonSolenoid->Set(true);           
             
-            if ((GetClock() - startTime) > 0.05) {
+            if ((GetClock() - startTime) > 0.2) {
                 step++;
                 startTime = GetClock();
             }
             break;
 
-        case 19:
+        case 19: // Wait for the motor to come back up to speed
+//          cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(false);
+			
+			if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+				|| ((GetClock() - startTime) > 0.8) ) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+		case 20: // Fire the 5th shot
+//          cout << "auto 3:18 - Fire the 5th shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(true);           
+			
+			if ((GetClock() - startTime) > 0.2) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+
+        case 21: // Wait for the motor to come back up to speed
+//          cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(false);
+			
+			if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+				|| ((GetClock() - startTime) > 0.8) ) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+		case 22: // Fire the 5th shot
+//          cout << "auto 3:18 - Fire the 5th shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(true);           
+			
+			if ((GetClock() - startTime) > 0.2) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+			
+        case 23: // Wait for the motor to come back up to speed
+//          cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(false);
+			
+			if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+				|| ((GetClock() - startTime) > 0.8) ) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+		case 24: // Fire the 5th shot
+//          cout << "auto 3:18 - Fire the 5th shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(true);           
+			
+			if ((GetClock() - startTime) > 0.2) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+			
+        case 25: // Wait for the motor to come back up to speed
+//          cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(false);
+			
+			if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+				|| ((GetClock() - startTime) > 0.8) ) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+		case 26: // Fire the 5th shot
+//          cout << "auto 3:18 - Fire the 5th shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(true);           
+			
+			if ((GetClock() - startTime) > 0.2) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+			
+        case 27: // Wait for the motor to come back up to speed
+//          cout << "shooter speed = " << shooterSpeedCounter->GetRPM() << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(false);
+			
+			if (    ( (shooterSpeedCounter->PIDGet() > 3800) && (GetClock() - startTime > 0.4) )
+				|| ((GetClock() - startTime) > 0.8) ) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+
+		case 28: // Fire the 5th shot
+//          cout << "auto 3:18 - Fire the 5th shot.  Time: " << (GetClock() - startTime) << "Tot Time: " << (GetClock() - beginTime) << endl;
+			pickupMotor->Set(0.0);
+			pickupAngleMotor->Set(0.0);
+
+			shooterAngleController->SetSetpoint(SHOOTER_TOP_HEIGHT);
+			shooterAngleController->Enable();
+			shooterSpeedController->SetSetpoint(4500);
+			shooterSpeedController->Enable();
+
+			shooterPistonSolenoid->Set(true);           
+			
+			if ((GetClock() - startTime) > 0.2) {
+				step++;
+				startTime = GetClock();
+			}
+			break;
+			
+        case 29:
             // Cleanup
 //          cout << "auto 3:19 - cleanup" << "Tot Time: " << (GetClock() - beginTime) << endl;
             pickupMotor->Set(0.0);
@@ -356,7 +546,7 @@ void Team316Robot::AutonomousMode3()
             startTime = GetClock();
             break;
 
-        case 20:
+        case 30:
             break;
 
         default:

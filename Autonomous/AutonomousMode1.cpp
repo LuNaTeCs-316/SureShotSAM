@@ -15,7 +15,7 @@
 
 void Team316Robot::AutonomousMode1()
 {
-	cout << "[Mode:1][Step:" << step <<"][ time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime);
+	cout << "[Mode:1][Step:" << step <<"][Time:"<< (GetClock() - startTime)<< "][TotTime:" << (GetClock() - beginTime) << "] - ";
     switch (step)
     {
         case 1: // Turn the motor on and wait till we're up to speed
@@ -53,7 +53,7 @@ void Team316Robot::AutonomousMode1()
             // Fire the frisbee
             shooterPistonSolenoid->Set(true);
             
-            if ((STEP_TIME) > 0.05)
+            if ((STEP_TIME) > 0.2)
             {
                 step++;
                 startTime = GetClock();
@@ -92,7 +92,7 @@ void Team316Robot::AutonomousMode1()
             // fire the next shot
             shooterPistonSolenoid->Set(true);           
             
-            if ((STEP_TIME) > 0.05)
+            if ((STEP_TIME) > 0.2)
             {
                 step++;
                 startTime = GetClock();
@@ -130,7 +130,7 @@ void Team316Robot::AutonomousMode1()
             // Fire the frisbee
             shooterPistonSolenoid->Set(true);
             
-            if (STEP_TIME > 0.05)
+            if (STEP_TIME > 0.2)
             {
                 step++;
                 startTime = GetClock();

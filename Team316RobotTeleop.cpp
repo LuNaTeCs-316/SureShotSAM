@@ -9,7 +9,6 @@
  ******************************************************************************/
 
 #include "Team316Robot.h"
-//#include "Vision/RGBImage.h"
 #include <math.h>
 
 //
@@ -69,15 +68,15 @@ void Team316Robot::TeleopInit()
 //
 void Team316Robot::TeleopPeriodic()
 {
+	cout << "[Teleop][Time:" << GetClock() << "] ";
+	
 	/**************************************************************************
 	 * Drivetrain
 	 **************************************************************************/
 	
 	// Simple Arcade drive with Xbox controller
-	/*
-	driveMotors->ArcadeDrive(driverController->GetY(),
-	 	driverController->GetRawAxis(4));
-	*/
+	//driveMotors->ArcadeDrive(driverController->GetY(),
+	// 	driverController->GetRawAxis(4));
 
 	// Simple Arcade drive with standard joystick
 	//driveMotors->ArcadeDrive(driverController);
@@ -196,7 +195,7 @@ void Team316Robot::TeleopPeriodic()
 	//SmartDashboard::PutNumber("RightMotor", right);
 	
 	// Print the left and right values to standard output for debugging
-	cout << "LeftMotor: " << left << ", RightMotor: " << right;
+	cout << "LeftMotor: " << left << ", RightMotor: " << right << ", ";
 
 	//
 	// 5. Set the speed of the motors
@@ -407,20 +406,18 @@ void Team316Robot::TeleopPeriodic()
 /**************************************************************************
  * Test
  **************************************************************************/
-//NEW
 	if (driverController->GetRawButton(TEST_BUTTON_B))
-		{
+	{
         leftDriveEncoder->Reset();
         rightDriveEncoder->Reset();
         cout << "reset encoders. left= "<< (leftDriveEncoder->Get())<<" right= "<< (rightDriveEncoder->Get())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-		}
+	}
 	
 	
 	if (driverController->GetRawButton(TEST_BUTTON_A))
-		{
+	{
 		cout << "Test encoders. left= "<< (leftDriveEncoder->Get())<<" right= "<< (rightDriveEncoder->Get())<<" time= "<< (GetClock() - startTime)<< "Tot Time= " << (GetClock() - beginTime) <<endl;
-		std::cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << std::endl;
-		std::cout << "shooterspeed: " << shooterSpeedCounter->GetRPM() << std::endl;
-			}
-} //end of function
-	
+		cout << "shooterAngle: " << shooterAnglePot->GetAverageVoltage() << endl;
+		cout << "shooterspeed: " << shooterSpeedCounter->GetRPM() << endl;
+	}
+}
