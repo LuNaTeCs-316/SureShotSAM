@@ -42,7 +42,7 @@ private:
 	// Shooter setpoints
 
 	// Value for highest target
-	const static float SHOOTER_TOP_HEIGHT = 3.495;		// Archimedes
+	const static float SHOOTER_TOP_HEIGHT = 3.45;		// Archimedes
 	//const static float SHOOTER_TOP_HEIGHT = 3.37;		// for MAR
 	//const static float SHOOTER_TOP_HEIGHT = 3.7;		// for lenape
 	//const static float SHOOTER_TOP_HEIGHT = 3.75;		// for practice; no lip at pyramid
@@ -54,7 +54,7 @@ private:
 	const static float SHOOTER_LOWEST_HEIGHT = 1.5;
 	
 	// Value for loading
-	const static float SHOOTER_TEST_LOAD_HEIGHT = 1.5;
+	const static float SHOOTER_LOAD_HEIGHT = 2.0;
 
 	//
 	// Declare member variables for the operator interface components

@@ -39,7 +39,7 @@ void Team316Robot::AutonomousMode4()
             }
             break;
 
-            //SHOOTER_TEST_LOAD_HEIGHT
+            //SHOOTER_LOAD_HEIGHT
         case 2: // this mode proved that it takes exactly > 5 second to raise the shooter
             cout << "raise shooter: actual = " << (shooterAnglePot->GetAverageVoltage()) << endl;
             

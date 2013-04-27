@@ -283,7 +283,7 @@ void Team316Robot::TeleopPeriodic()
 			|| operatorJoystick->GetRawButton(SHOOTER_LOAD_HEIGHT_BUTTON2))
 	{
 		// Pickup position
-		shooterAngleController->SetSetpoint(SHOOTER_LOWEST_HEIGHT);
+		shooterAngleController->SetSetpoint(SHOOTER_LOAD_HEIGHT);
 		shooterAngleController->Enable();
 	}
 	else
