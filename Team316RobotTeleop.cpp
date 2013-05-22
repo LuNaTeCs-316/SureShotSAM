@@ -19,7 +19,13 @@ double turnGain = 1.0;
 double deadband = 0.2;
 double turnBoostGain = 0.5;
 double skimGain = 0.5;
+//vars for flashing lights
 int shooter_light = 0;
+double 	offCounter = 0;
+double	offTime = 0;
+bool 	isLightOn = false;
+
+
 //
 // skim(v, gain)
 //
@@ -324,11 +330,19 @@ void Team316Robot::TeleopPeriodic()
 		// Spin the motor backwards at slow speed when shooter is jammed
 		shooterMotor->Set(.5);
 	}
+	else if (operatorJoystick->GetRawButton(3))
+	{
+		// GO REELY SLOW
+		shooterSpeedController->SetSetpoint(2000);
+		shooterSpeedController->Enable();
+		cout << "shooterMotorSpeed: " << shooterSpeedCounter->PIDGet() << ", ";
+	}
 	else
 	{
 		// Disable the shooter motor
 		shooterSpeedController->Disable();
 	}
+	
 	
 	
 	//
@@ -339,9 +353,47 @@ void Team316Robot::TeleopPeriodic()
 	else
 		shooterPistonSolenoid->Set(false);
 	
+
+
+
 	//
 	// Indictor lights
 	//
+	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05
+			&& shooterSpeedCounter->GetRPM() > 3500 ) {
+		shooterIndicatorSolenoid->Set(true);
+		isLightOn = true;
+	}
+	else if (shooterSpeedCounter->GetRPM() < 500 
+		|| !(shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05) ) {
+		shooterIndicatorSolenoid->Set(false);
+		isLightOn = false;
+		}
+
+	else {	// we are here if shooter is at correct elevated position but is not yet up to speed
+
+		//if light was turned on last pass, turn it off now
+		if (isLightOn) {
+			shooterIndicatorSolenoid->Set(false);
+			isLightOn = false;
+			offCounter = 0;
+		}
+
+		//if light is off, check to see if it is time to turn it on
+		else {
+			offCounter++;
+			double temp = shooterSpeedCounter->GetRPM();
+			temp = temp - 150;
+			offTime = 71 - temp;
+			if (offCounter >= offTime) {
+				shooterIndicatorSolenoid->Set(true);
+				isLightOn = true;
+			}//end of inner if
+		}//end of else
+	}//end of outer else
+
+
+/* old way we did lights
 	if (shooterAnglePot->GetAverageVoltage() >= SHOOTER_TOP_HEIGHT - .05
 			&& shooterSpeedCounter->GetRPM() > 3550 )
 	{
@@ -361,6 +413,9 @@ void Team316Robot::TeleopPeriodic()
 		shooterIndicatorSolenoid->Set(true); // on solid
 	else 
 	shooterIndicatorSolenoid->Set(false); // off
+*/
+
+
 
 	/**************************************************************************
 	 * Climbing
